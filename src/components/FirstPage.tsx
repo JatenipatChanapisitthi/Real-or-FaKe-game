@@ -41,14 +41,15 @@ export default function Home() {
           Add
         </button>
       </div>
-      <div className='flex gap-1 mb-1'>
-      <ul className="mb-4 border border-fuchsia-600 p-2 pt-0.5 pb-0.5">
-        {nameList.map((name, index) => (
-          <li key={index}>{name}</li>
-        ))}
-      </ul>
-        <button className='border border-b-red-700 pr-2'>x</button>
-      </div>
+      {nameList.length > 0 && (
+        <>
+          <ul className="mb-4">
+            {nameList.map((name, index) => (
+              <li key={index} className='border border-b-blue-950 py-1 px-3 my-3 place-self-center'>{name}</li>
+            ))}
+          </ul>
+        </>
+      )}
       <button className="border border-blue-500 p-2" onClick={goToGame}>
         Start Game
       </button>
