@@ -3,7 +3,9 @@
 import { useSearchParams } from 'next/navigation'
 import { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
-import chameleon from '../../data/thai_chameleon_game_pairs.json'
+import { FaPlay } from "react-icons/fa";
+
+import chameleon from '../../data/thai_chameleon_game_pairs_10000.json'
 
 export default function GamePage() {
   const router = useRouter();
@@ -22,11 +24,10 @@ export default function GamePage() {
   const [goStart, setGoStart] = useState(true);
   const [count, setCount] = useState(1);
 
-  console.log(goStart);
 
   useEffect(() => {
     if (nameList.length === 0) return;
-
+    console.log(nameList)
     // Random words 
     const rand = Math.floor(Math.random() * chameleon.pairs.length);
     setRandomIndex(rand);
@@ -64,52 +65,66 @@ export default function GamePage() {
     }
 }
   return (
-    <div className="flex flex-col items-center mt-10">
-      <h1 className="text-2xl mb-4">Players Words:</h1>
-      <ul className="flex flex-col gap-4 mb-4">
-        {nameList.map((name: string, idx: number) => (
-          <li key={idx} className="border-2 p-4 w-90">
-            <div className="flex justify-between">
-              {name}
-              <span
-                onClick={() => {
-                  if (!viewedWord.includes(name)) {
-                    handleViewWordClick(name);
-                  }
-                  if (count === nameList.length){
-                    setGoStart(false)
-                    
-                  }
-                }}
-                className={`cursor-pointer ${
-                  viewedWord.includes(name)
-                    ? "pointer-events-none opacity-50"
-                    : ""
-                }`}
+    <div className="flex flex-col min-h-screen items-center justify-center p-4 bg-[#FBFBFB]">
+      <div className="bg-white  border border-gray-200  flex flex-col w-90 md:w-120 items-center justify-center p-10 rounded-sm">
+        <h1 className="text-2xl font-bold">Players Words:</h1>
+        <h2>{nameList.length} Players</h2>
+        <ul className="m-4 flex flex-col gap-2 ">
+          {nameList.map((name: string, idx: number) => (
+            <li key={idx} className="bg-[#F9FAFB] p-4 rounded-sm w-80 md:w-90">
+              <div className="flex justify-between">
+                {name}
+                <span
+                  onClick={() => {
+                    if (!viewedWord.includes(name)) {
+                      handleViewWordClick(name);
+                    }
+                    if (count === nameList.length) {
+                      setGoStart(false);
+                    }
+                  }}
+                  className={`cursor-pointer ${
+                    viewedWord.includes(name)
+                      ? "pointer-events-none opacity-50"
+                      : ""
+                  }`}
+                >
+                  show
+                </span>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        {showWord && selectedName && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90">
+            <div className="bg-white w-80 h-100 p-6 rounded-md border-2 flex flex-col items-center justify-around ">
+              <p className='text-xl'>
+                Player: <strong>{selectedName}</strong>
+              </p>
+              <p className="mt-2 text-2xl">
+                Your Word: <strong>{wordMap[selectedName]}</strong>
+              </p>
+              <button
+                onClick={() => handleViewWordClick()}
+                className="cursor-pointer w-30 h-10  rounded-sm text-white bg-red-500 "
               >
-                show
-              </span>
+                Close
+              </button>
             </div>
-          </li>
-        ))}
-      </ul>
-
-      {showWord && selectedName && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90">
-          <div className="bg-white w-80 h-100 p-6 rounded-xl border-2 flex flex-col items-center justify-center">
-            <p>Player: <strong>{selectedName}</strong></p>
-            <p className='mt-2'>Your Word: <strong>{wordMap[selectedName]}</strong></p>
-            <button
-              onClick={() => handleViewWordClick()}
-              className="cursor-pointer w-20 h-10 rounded-xl text-white bg-red-500 mt-4"
-            >
-              Close
-            </button>
           </div>
-        </div>
-      )}
+        )}
 
-      <button className={`cursor-pointer ${goStart ? "pointer-events-none opacity-50": ""}`}  onClick={goToStart}>start</button>
+        <button
+          className={`justify-center items-center gap-2 cursor-pointer ${
+            goStart ? "pointer-events-none opacity-50 border border-gray-300 " : "text-white bg-green-500 hover:bg-green-300"
+          }  p-3 w-30 rounded-sm flex `}
+          onClick={goToStart}
+        >
+          <FaPlay />          
+          <p className='text-sm'>START</p>
+        </button>
+      </div>
     </div>
   );
 }
