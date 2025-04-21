@@ -26,7 +26,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col items-center mt-10">
+    <div className="flex flex-col items-center mt-10 ">
       <h1 className="text-2xl mb-4">Enter Player Names</h1>
       <p>{nameList.length}</p>
       <div className="flex gap-2 mb-4">
