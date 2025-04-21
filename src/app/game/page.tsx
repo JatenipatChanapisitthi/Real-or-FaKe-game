@@ -31,6 +31,7 @@ export default function GamePage() {
 
       {randomIndex !== null && (
         <div className="text-xl font-semibold">
+          <h1>test branch papagkorn</h1>
           {chameleon.pairs[randomIndex][0]} - {chameleon.pairs[randomIndex][1]}
         </div>
       )}
