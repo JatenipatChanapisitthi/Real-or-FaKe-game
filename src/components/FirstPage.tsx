@@ -21,7 +21,7 @@ export default function Home() {
   const goToGame = () => {
     if (nameList.length > 0) {
       const namesEncoded = encodeURIComponent(JSON.stringify(nameList))
-      router.push(`/game?names=${namesEncoded}`)
+      router.push(`/player?names=${namesEncoded}`)
     }
   }
 
