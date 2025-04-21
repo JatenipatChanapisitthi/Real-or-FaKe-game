@@ -4,6 +4,9 @@ import { useSearchParams } from 'next/navigation'
 import { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { FaPlay } from "react-icons/fa";
+import { GrPowerReset } from "react-icons/gr";
+import { RxCross2 } from "react-icons/rx";
+
 
 import chameleon from '../../data/thai_chameleon_game_pairs_10000.json'
 
@@ -24,26 +27,30 @@ export default function GamePage() {
   const [goStart, setGoStart] = useState(true);
   const [count, setCount] = useState(1);
 
-
-  useEffect(() => {
+  const setWord = () => {
     if (nameList.length === 0) return;
     console.log(nameList)
     // Random words 
     const rand = Math.floor(Math.random() * chameleon.pairs.length);
     setRandomIndex(rand);
     const [word1, word2] = chameleon.pairs[rand];
-
+  
     // Random player diff
     const diffIdx = Math.floor(Math.random() * nameList.length);
     const playerDiff = nameList[diffIdx];
     setWhoDiff(playerDiff);
-
+  
     const assignedWords: Record<string, string> = {};
     nameList.forEach((name: any) => {
       assignedWords[name] = name === playerDiff ? word2 : word1;
     });
-
+  
     setWordMap(assignedWords);
+
+  }
+
+  useEffect(() => {
+    setWord();
   }, []);
 
   const handleViewWordClick = (name?: string) => {
@@ -63,7 +70,17 @@ export default function GamePage() {
       const namesEncoded = encodeURIComponent(JSON.stringify(nameList))
       router.push(`/game?names=${namesEncoded}`)
     }
-}
+  }
+  const handleResetClick = () => {
+    setWord();            
+    setShowWord(false);   
+    setSelectedName(null);
+    setViewedWord([]);    
+    setWhoDiff(null);     
+    setCount(1);          
+    setGoStart(true)
+  };
+
   return (
     <div className="flex flex-col min-h-screen items-center justify-center p-4 bg-[#FBFBFB]">
       <div className="bg-white  border border-gray-200  flex flex-col w-90 md:w-120 items-center justify-center p-10 rounded-sm">
@@ -83,7 +100,7 @@ export default function GamePage() {
                       setGoStart(false);
                     }
                   }}
-                  className={`cursor-pointer ${
+                  className={`cursor-pointer hover:text-gray-500 ${
                     viewedWord.includes(name)
                       ? "pointer-events-none opacity-50"
                       : ""
@@ -98,8 +115,8 @@ export default function GamePage() {
 
         {showWord && selectedName && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90">
-            <div className="bg-white w-80 h-100 p-6 rounded-md border-2 flex flex-col items-center justify-around ">
-              <p className='text-xl'>
+            <div className="bg-white w-80 md:w-100 h-100 p-6 rounded-md border-2 flex flex-col items-center justify-around ">
+              <p className="text-xl">
                 Player: <strong>{selectedName}</strong>
               </p>
               <p className="mt-2 text-2xl">
@@ -109,21 +126,36 @@ export default function GamePage() {
                 onClick={() => handleViewWordClick()}
                 className="cursor-pointer w-30 h-10  rounded-sm text-white bg-red-500 "
               >
-                Close
+                <div className='flex items-center justify-center gap-1'>
+                  <RxCross2 className='text-xl'/>
+                  <p>Close</p>
+                </div>
               </button>
             </div>
           </div>
         )}
 
-        <button
-          className={`justify-center items-center gap-2 cursor-pointer ${
-            goStart ? "pointer-events-none opacity-50 border border-gray-300 " : "text-white bg-green-500 hover:bg-green-300"
-          }  p-3 w-30 rounded-sm flex `}
-          onClick={goToStart}
-        >
-          <FaPlay />          
-          <p className='text-sm'>START</p>
-        </button>
+        <div className="flex gap-4">
+          <button
+            className={`justify-center items-center gap-2 cursor-pointer text-white bg-red-500 hover:bg-red-300 p-3 w-30 rounded-sm flex `}
+            onClick={handleResetClick}
+          >
+            <GrPowerReset />
+            <p className="text-sm">RESET</p>
+          </button>
+
+          <button
+            className={`justify-center items-center gap-2 cursor-pointer ${
+              goStart
+                ? "pointer-events-none opacity-50 border border-gray-300 "
+                : "text-white bg-green-500 hover:bg-green-300"
+            }  p-3 w-30 rounded-sm flex `}
+            onClick={goToStart}
+          >
+            <FaPlay />
+            <p className="text-sm">START</p>
+          </button>
+        </div>
       </div>
     </div>
   );
