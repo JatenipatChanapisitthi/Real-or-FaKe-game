@@ -150,9 +150,9 @@ export default function GamePage() {
                 }
               }}
               key={idx}
-              className={`bg-[#F9FAFB] p-4 rounded-sm w-80 md:w-90 cursor-pointer${
+              className={`bg-[#F9FAFB] p-4 border border-black/10 rounded-sm w-80 md:w-90 cursor-pointer${
                 viewedWord.includes(name)
-                  ? "pointer-events-none opacity-50"
+                  ? "pointer-events-none opacity-50 border-0"
                   : ""
               }`}
             >
