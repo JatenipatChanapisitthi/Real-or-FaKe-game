@@ -1,39 +1,33 @@
 'use client'
 
-import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
-import chameleon from '../../data/thai_chameleon_game_pairs.json'
+import { useRouter } from 'next/navigation'
 
-export default function GamePage() {
-  const searchParams = useSearchParams()
-  const namesParam = searchParams.get('names')
-  const nameList = namesParam ? JSON.parse(decodeURIComponent(namesParam)) : []
+export default function Home() {
+  const [inputName, setInputName] = useState('')
+  const [nameList, setNameList] = useState<string[]>([])
+  const router = useRouter()
 
-  const [randomIndex, setRandomIndex] = useState<number | null>(null)
+  const addName = () => {
+    if (inputName.trim() !== '') {
+      setNameList([...nameList, inputName.trim()])
+      setInputName('')
+    }
+  }
 
-  const handleClick = () => {
-    const rand = Math.floor(Math.random() * chameleon.pairs.length)
-    setRandomIndex(rand)
+  console.log(nameList)
+  console.log(nameList.length)
+
+  const goToGame = () => {
+    if (nameList.length > 0) {
+      const namesEncoded = encodeURIComponent(JSON.stringify(nameList))
+      router.push(`/player?names=${namesEncoded}`)
+    }
   }
 
   return (
     <div className="flex flex-col items-center mt-10">
-      <h1 className="text-2xl mb-4">Players:</h1>
-      <ul className="mb-4">
-        {nameList.map((name: string, idx: number) => (
-          <li key={idx}>{name}</li>
-        ))}
-      </ul>
-
-      <button className="border border-red-500 p-2 mb-4" onClick={handleClick}>
-        Click to Get a Word Pair
-      </button>
-
-      {randomIndex !== null && (
-        <div className="text-xl font-semibold">
-          {chameleon.pairs[randomIndex][0]} - {chameleon.pairs[randomIndex][1]}
-        </div>
-      )}
+        <h1>hi</h1>
     </div>
   )
 }

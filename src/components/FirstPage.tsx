@@ -8,12 +8,21 @@ export default function Home() {
   const [nameList, setNameList] = useState<string[]>([])
   const router = useRouter()
 
-  const addName = () => {
-    if (inputName.trim() !== '') {
-      setNameList([...nameList, inputName.trim()])
-      setInputName('')
+  const addNameKeyboard = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      if (inputName.trim() !== '' && !nameList.includes(inputName)) {
+        setNameList([...nameList, inputName.trim()])
+        setInputName('')
+      }
     }
   }
+  const addNameClick = () => {
+      if (inputName.trim() !== '' && !nameList.includes(inputName)) {
+        setNameList([...nameList, inputName.trim()])
+        setInputName('')
+      }
+  }
+
 
   console.log(nameList)
   console.log(nameList.length)
@@ -21,13 +30,12 @@ export default function Home() {
   const goToGame = () => {
     if (nameList.length > 0) {
       const namesEncoded = encodeURIComponent(JSON.stringify(nameList))
-      router.push(`/game?names=${namesEncoded}`)
+      router.push(`/player?names=${namesEncoded}`)
     }
   }
 
   return (
-    <div className="flex flex-col items-center mt-10">
-      <h1 className='text-4xl pb-10'>the chameleon game</h1>
+    <div className="flex flex-col items-center mt-10 ">
       <h1 className="text-2xl mb-4">Enter Player Names</h1>
       <p>{nameList.length}</p>
       <div className="flex gap-2 mb-4">
@@ -36,20 +44,17 @@ export default function Home() {
           className="border p-2"
           value={inputName}
           onChange={(e) => setInputName(e.target.value)}
+          onKeyDown={addNameKeyboard}
         />
-        <button className="border border-green-500 p-2" onClick={addName}>
+        <button className="border border-green-500 p-2" onClick={addNameClick}>
           Add
         </button>
       </div>
-      {nameList.length > 0 && (
-        <>
-          <ul className="mb-4">
-            {nameList.map((name, index) => (
-              <li key={index} className='border border-b-blue-950 py-1 px-3 my-3 place-self-center'>{name}</li>
-            ))}
-          </ul>
-        </>
-      )}
+      <ul className="mb-4">
+        {nameList.map((name, index) => (
+          <li key={index}>{name}</li>
+        ))}
+      </ul>
       <button className="border border-blue-500 p-2" onClick={goToGame}>
         Start Game
       </button>
