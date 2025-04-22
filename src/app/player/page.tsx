@@ -7,7 +7,6 @@ import { FaPlay } from "react-icons/fa";
 import { GrPowerReset } from "react-icons/gr";
 import { RxCross2 } from "react-icons/rx";
 
-
 import chameleon from '../../data/thai_chameleon_game_pairs_10000.json'
 
 export default function GamePage() {
@@ -135,12 +134,13 @@ export default function GamePage() {
     
     return (
       <div className="flex flex-col min-h-screen items-center justify-center p-4 bg-[#FBFBFB]">
-      <div className="bg-white  border border-gray-200 gap-2 flex flex-col w-90 md:w-120 items-center justify-center p-10 rounded-sm">
-        <h1 className="text-2xl font-bold">Players Words:</h1>
-        <h2>{nameList.length} Players</h2>
-        <ul className="m-4 flex flex-col gap-2 ">
-          {nameList.map((name: string, idx: number) => (
-            <li
+        <div className="relative bg-white  border border-gray-200 gap-2 flex flex-col w-90 md:w-120 items-center justify-center p-20 rounded-sm">
+        <a href='/' className='absolute bottom-2 text-sm text-black/80'>Back To Home</a>
+          <h1 className="text-2xl font-bold">Players Words:</h1>
+          <h2>{nameList.length} Players</h2>
+          <ul className="m-4 flex flex-col gap-2 ">
+            {nameList.map((name: string, idx: number) => (
+              <li
               onClick={() => {
                 if (!viewedWord.includes(name)) {
                   handleViewWordClick(name);
@@ -152,94 +152,98 @@ export default function GamePage() {
               key={idx}
               className={`bg-[#F9FAFB] p-4 border border-black/10 rounded-sm w-80 md:w-90 cursor-pointer${
                 viewedWord.includes(name)
-                  ? "pointer-events-none opacity-50 border-0"
-                  : ""
+                ? "pointer-events-none opacity-50 border-0"
+                : ""
               }`}
-            >
-              <div className="flex justify-center">{name.toLowerCase()}</div>
-            </li>
-          ))}
-        </ul>
-
-        {showWord && selectedName && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90">
-            <div className="bg-white w-80 md:w-100 h-100 p-6 rounded-md border-2 flex flex-col items-center justify-around ">
-              <p className="text-xl">
-                Player: <strong>{selectedName}</strong>
-              </p>
-              <p className="mt-2 text-2xl">
-                Your Word: <strong>{wordMap[selectedName]}</strong>
-              </p>
-              <button
-                onClick={() => handleViewWordClick()}
-                className="cursor-pointer w-30 h-10  rounded-sm text-white bg-red-500 "
               >
-                <div className="flex items-center justify-center gap-1">
-                  <RxCross2 className="text-xl" />
-                  <p>Close</p>
-                </div>
-              </button>
-            </div>
-          </div>
-        )}
+                <div className="flex justify-center">{name.toLowerCase()}</div>
+              </li>
+            ))}
+          </ul>
 
-        <div className="flex gap-4">
-          <button
-            className={`justify-center items-center gap-2 cursor-pointer text-white bg-red-500 hover:bg-red-300 p-3 w-30 rounded-sm flex `}
-            onClick={handleConfirmRest}
-          >
-            <GrPowerReset />
-            <p className="text-sm">RESET</p>
-          </button>
-
-          {confirmReset && (
+          {showWord && selectedName && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90">
-              <div className="bg-white w-80 md:w-100 h-100 p-6 rounded-md border-2 flex flex-col items-center justify-between gap-3">
-
-                <h1 className="text-2xl font-bold">Do You Want To Reset</h1>
-                <div className='flex flex-col gap-4 text-xl'>
-                    <p>Difference Word: <strong>{wordDiff}</strong></p>
-                    <p>Normal Word: <strong>{wordNormal}</strong></p>
-                </div>
-
-                <div className="flex gap-4">
-                  <button
-                    onClick={handleConfirmRest}
-                    className="cursor-pointer w-30 h-10  rounded-sm text-white bg-black hover:bg-gray-600"
-                  >
-                    <div className="flex items-center justify-center gap-1">
-                      <RxCross2 className="text-xl" />
-                      <p>Cancel</p>
-                    </div>
-                  </button>
-
-                  <button
-                    onClick={handleResetClick}
-                    className="cursor-pointer w-30 h-10  rounded-sm text-white bg-red-500 hover:bg-red-300"
-                  >
-                    <div className="flex items-center justify-center gap-1">
-                      <GrPowerReset />
-                      <p>Confirm</p>
-                    </div>
-                  </button>
-                </div>
+              <div className="bg-white w-80 md:w-100 h-100 p-6 rounded-md border-2 flex flex-col items-center justify-around ">
+                <p className="text-xl">
+                  Player: <strong>{selectedName}</strong>
+                </p>
+                <p className="mt-2 text-2xl">
+                  Your Word: <strong>{wordMap[selectedName]}</strong>
+                </p>
+                <button
+                  onClick={() => handleViewWordClick()}
+                  className="cursor-pointer w-30 h-10  rounded-sm text-white bg-red-500 "
+                >
+                  <div className="flex items-center justify-center gap-1">
+                    <RxCross2 className="text-xl" />
+                    <p>Close</p>
+                  </div>
+                </button>
               </div>
             </div>
           )}
 
-          <button
-            className={`justify-center items-center gap-2 cursor-pointer ${
-              goStart
+          <div className="flex gap-4">
+            <button
+              className={`justify-center items-center gap-2 cursor-pointer text-white bg-red-500 hover:bg-red-300 p-3 w-30 rounded-sm flex `}
+              onClick={handleConfirmRest}
+            >
+              <GrPowerReset />
+              <p className="text-sm">RESET</p>
+            </button>
+
+            {confirmReset && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90">
+                <div className="bg-white w-80 md:w-100 h-100 p-6 rounded-md border-2 flex flex-col items-center justify-between gap-3">
+                  <h1 className="text-2xl font-bold">Do You Want To Reset</h1>
+                  <div className="flex flex-col gap-4 text-xl">
+                    <p>
+                      Difference Word: <strong>{wordDiff}</strong>
+                    </p>
+                    <p>
+                      Normal Word: <strong>{wordNormal}</strong>
+                    </p>
+                  </div>
+
+                  <div className="flex gap-4">
+                    <button
+                      onClick={handleConfirmRest}
+                      className="cursor-pointer w-30 h-10  rounded-sm text-white bg-black hover:bg-gray-600"
+                    >
+                      <div className="flex items-center justify-center gap-1">
+                        <RxCross2 className="text-xl" />
+                        <p>Cancel</p>
+                      </div>
+                    </button>
+
+                    <button
+                      onClick={handleResetClick}
+                      className="cursor-pointer w-30 h-10  rounded-sm text-white bg-red-500 hover:bg-red-300"
+                    >
+                      <div className="flex items-center justify-center gap-1">
+                        <GrPowerReset />
+                        <p>Confirm</p>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <button
+              className={`justify-center items-center gap-2 cursor-pointer ${
+                goStart
                 ? "pointer-events-none opacity-50 border border-gray-300 "
                 : "text-white bg-green-500 hover:bg-green-300"
-            }  p-3 w-30 rounded-sm flex `}
-            onClick={goToStart}
-          >
-            <FaPlay />
-            <p className="text-sm">START</p>
-          </button>
+              }  p-3 w-30 rounded-sm flex `}
+              onClick={goToStart}
+            >
+              <FaPlay />
+              <p className="text-sm">START</p>
+            </button>
+      
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
 }
