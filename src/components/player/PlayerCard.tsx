@@ -5,12 +5,14 @@ type PlayerCardProps = {
     handleViewWordClick: (name: string) => void;
     countToStart: number;
     setGoStart: (value: boolean) => void;
+    inputMinute: number;
+    inputSeconds: number;
 
 
 
 }
 
-const PlayerCard: React.FC<PlayerCardProps> = ({nameList, viewedWord, handleViewWordClick, countToStart, setGoStart}) =>{
+const PlayerCard: React.FC<PlayerCardProps> = ({nameList, viewedWord, handleViewWordClick, countToStart, setGoStart, inputMinute, inputSeconds}) =>{
   return (
     <div className='flex flex-col items-center justify-center'>
       <a href="/" className="absolute bottom-2 text-sm text-black/80">
@@ -25,8 +27,8 @@ const PlayerCard: React.FC<PlayerCardProps> = ({nameList, viewedWord, handleView
               if (!viewedWord.includes(name)) {
                 handleViewWordClick(name);
               }
-              if (countToStart === nameList.length) {
-                setGoStart(false);
+              if (countToStart === nameList.length && inputMinute !== 0) {
+              setGoStart(false);
               }
             }}
             key={idx}

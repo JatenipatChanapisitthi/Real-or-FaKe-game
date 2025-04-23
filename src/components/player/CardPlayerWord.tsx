@@ -4,13 +4,12 @@ import { useSearchParams } from 'next/navigation'
 import { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 
-import  ButtonStart  from "@/components/player/ui/ButtonStart"
-import  ButtonReset  from "@/components/player/ui/ButtonReset"
 
-import ConfirmReset from '@/components/player/ConfirmReset'
+import  Timer   from '@/components/player/Timer'
 import chameleon from '../../data/thai_chameleon_game_pairs_10000.json'
 import ViewWord from '@/components/player/ViewWord'
 import PlayerCard from '@/components/player/PlayerCard'
+import AllBtn from './AllBtn'
 
 const CardPlayerWord = () => {
   const router = useRouter();
@@ -34,6 +33,10 @@ const CardPlayerWord = () => {
   // set count to start
   const [countToStart, setCountToStart] = useState(1);
   const [goStart, setGoStart] = useState(true);
+
+  const [inputMinute, setInputMinute] = useState(1);
+  const [inputSeconds, setInputSeconds] = useState(30);
+  const [timeStart, setTimeStart] = useState(false);
 
   const setStartAndRandomWord = () => {
     if (nameList.length === 0) return;
@@ -101,6 +104,10 @@ const CardPlayerWord = () => {
       setConfirmReset(!confirmReset);
     }
     
+    const handleCloseTime = () =>{
+      setTimeStart(false) 
+    }
+    
     
     const handleResetClick = () => {
       setStartAndRandomWord();            
@@ -110,6 +117,8 @@ const CardPlayerWord = () => {
       setWhoDiff(null);     
       setCountToStart(1);          
       setGoStart(true);
+      setInputMinute(1)
+      setInputSeconds(30)
       setConfirmReset(!confirmReset)
     };
     
@@ -118,6 +127,9 @@ const CardPlayerWord = () => {
         const namesEncoded = encodeURIComponent(JSON.stringify(nameList))
         router.push(`/game?names=${namesEncoded}`)
       }
+    }
+    const onStart = () =>{
+      setTimeStart(true)
     }
 
     const logData = () =>{
@@ -131,43 +143,54 @@ const CardPlayerWord = () => {
       console.log(`show word = ${showWord}`)
       console.log(`who viewed word = ${viewedWord}`)
       console.log(`selected name = ${selectedName}`)
+      console.log(`input minute = ${inputMinute}`)
+      console.log(`timeStart = ${timeStart}`)
     }
 
     logData();
     
   return (
-    <div>
-        <div className="relative bg-white  border border-gray-200 gap-2 flex flex-col w-90 md:w-120 items-center justify-center p-20 rounded-sm">
-          <PlayerCard 
-            nameList={nameList} 
-            viewedWord={viewedWord}
-            handleViewWordClick={handleViewWordClick}
-            countToStart={countToStart}
-            setGoStart={setGoStart}
-            />
+    <div className="flex flex-col min-h-screen items-center justify-center p-4 gap-3">
+      <Timer
+        inputMinute={inputMinute}
+        setInputMinute={setInputMinute}
+        inputSeconds={inputSeconds}
+        setInputSeconds={setInputSeconds}
+        timeStart={timeStart}
+        handleCloseTime={handleCloseTime}
+        nameList={nameList}
+      />
 
-          <ViewWord
-            showWord={showWord}
-            selectedName={selectedName}
-            wordMap={wordMap}
-            handleViewWordClick={handleViewWordClick}
-          />
+      <div className="relative bg-white  border border-gray-200 gap-2 flex flex-col w-90 md:w-120 items-center justify-center p-20 rounded-sm">
+        <PlayerCard
+          nameList={nameList}
+          viewedWord={viewedWord}
+          handleViewWordClick={handleViewWordClick}
+          countToStart={countToStart}
+          setGoStart={setGoStart}
+          inputMinute={inputMinute}
+          inputSeconds={inputSeconds}
+        />
 
-          <div className="flex gap-4">
-            <ButtonReset handleConfirmReset={handleConfirmReset} />
-            <ButtonStart goStart={goStart} goToStart={goToStart} />
-            <ConfirmReset
-              confirmReset={confirmReset}
-              wordDiff={wordDiff}
-              wordNormal={wordNormal}
-              handleConfirmReset={handleConfirmReset}
-              handleResetClick={handleResetClick}
-            />
-          </div>
-        </div>
-      
+        <ViewWord
+          showWord={showWord}
+          selectedName={selectedName}
+          wordMap={wordMap}
+          handleViewWordClick={handleViewWordClick}
+        />
+        <AllBtn
+          handleConfirmReset={handleConfirmReset}
+          goStart={goStart}
+          goToStart={goToStart}
+          confirmReset={confirmReset}
+          wordDiff={wordDiff}
+          wordNormal={wordNormal}
+          handleResetClick={handleResetClick}
+          onStart={onStart}
+        />
+      </div>
     </div>
-  )
+  );
 }
 
 export default CardPlayerWord
