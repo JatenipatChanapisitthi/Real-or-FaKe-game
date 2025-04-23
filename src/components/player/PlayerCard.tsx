@@ -28,7 +28,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({nameList, viewedWord, handleView
                 handleViewWordClick(name);
               }
               if (countToStart === nameList.length && inputMinute !== 0) {
-              setGoStart(false);
+                setGoStart(true)
               }
             }}
             key={idx}

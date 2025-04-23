@@ -11,8 +11,9 @@ type TimerProps = {
   timeStart: boolean;
   handleCloseTime: () => void;
   nameList: string[];
+  setGoStart: (value: boolean) => void;
 };
-const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds , setInputSeconds, timeStart, handleCloseTime, nameList }) => {
+const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds , setInputSeconds, timeStart, handleCloseTime, nameList, setGoStart}) => {
     const [timeUp, setTimeUp] = useState(false);
     const [days, setDays] = useState(0);
     const [hours, setHours] = useState(0);
@@ -27,7 +28,6 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
     const prevValueRefSec = useRef<number | string>(inputSeconds);
 
     useEffect(() => {
-
         const interval = setInterval(() =>{
         if (!target) return;
         const now = new Date()
@@ -57,73 +57,83 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
         return () => clearInterval(interval)
       }, [target])
       
-      const goToVote = () =>{
-        
+
+      
+      useEffect(() => {
+        if (timeStart){
+          const now = new Date()
+          const safeMinutes = isNaN(minutes) ? 0 : inputMinute;
+          const safeSeconds = isNaN(seconds) ? 0 : inputSeconds+2;
+          
+          const totalMilliseconds = (safeMinutes * 60 + safeSeconds) * 1000;
+          const newTarget = new Date(now.getTime() + totalMilliseconds);
+          setTarget(newTarget);
+          setShowInputTime(false);
+          
+        }
+      }, [timeStart])
+      
+    useEffect(() => {
+      if (timeStart) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "";
+      }
+  
+      return () => {
+        document.body.style.overflow = "";
+      };
+    }, [timeStart]);
+      
+      const goToVote = () =>{  
         if (nameList.length>0){
           setTimeUp(true);
           const namesEncoded = encodeURIComponent(JSON.stringify(nameList))
           router.push(`/vote?names=${namesEncoded}`)
         }
       }
-      
-      useEffect(() => {
-
-      if (timeStart){
-        const now = new Date()
-        const safeMinutes = isNaN(minutes) ? 0 : inputMinute;
-        const safeSeconds = isNaN(seconds) ? 0 : inputSeconds+2;
-        
-        const totalMilliseconds = (safeMinutes * 60 + safeSeconds) * 1000;
-        const newTarget = new Date(now.getTime() + totalMilliseconds);
-        setTarget(newTarget);
-        setShowInputTime(false);
-
-      }
-    }, [timeStart])
-
-
  
+
+      
 
     return (
       <div className="bg-white  border border-gray-200 gap-2 p-6 flex flex-col w-90 md:w-120 items-center justify-center rounded-sm">
         <h1 className="text-2xl font-bold">Time Setup</h1>
         <form className="flex gap-2 mb-4">
-          <input
-            ref={inputRef}
-            type="number"
-            min="0"
-            value={isNaN(inputMinute) || inputMinute === 0 ? "" : inputMinute}
-            onChange={(e) => setInputMinute(parseInt(e.target.value, 10))}
-            className="border p-2 w-15 text-center appearance-none rounded-sm"
-            onFocus={(e) => {
-              e.target.value = "";
-              // setInputMinute("");
+          <select
+            value={inputMinute === 0 || isNaN(inputMinute) ? "" : inputMinute}
+            onChange={(e) => {
+              setInputMinute(Number(e.target.value));
             }}
-            // onBlur={() => {
-            //   if (inputMinute === "") {
-            //     setInputMinute(prevValueRefMin.current);
-            //   }
-            // }}
-            placeholder="M"
-          />
+            className="border border-gray-300 rounded-sm px-4 py-2 text-center text-gray-700 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none relative"
+          >
+            <option value="" disabled>
+              Minute
+            </option>
+            {[...Array(61)].map((_, i) => (
+              <option key={i} value={i}>
+                {i}
+              </option>
+            ))}
+          </select>
 
-          <input
-            type="number"
-            min="0"
-            value={isNaN(inputSeconds) ? "" : inputSeconds}
-            onChange={(e) => setInputSeconds(parseInt(e.target.value, 10))}
-            className="border p-2 w-15  text-center  appearance-none rounded-sm"
-            onFocus={(e) => {
-              e.target.value = "";
-              // setInputSeconds("");
+          <select
+            value={inputSeconds === 0 ? inputSeconds : inputSeconds}
+            onChange={(e) => {
+              setInputSeconds(Number(e.target.value));
             }}
-            // onBlur={() => {
-            //   if (inputSeconds === "") {
-            //     setInputSeconds(prevValueRefSec.current);
-            //   }
-            // }}
-            placeholder="S"
-          />
+            // className="border p-2 w-15 text-center appearance-none rounded-sm"
+            className="border border-gray-300 rounded-sm px-4 py-2 text-center text-gray-700 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none relative"
+          >
+            <option value="" disabled>
+              Second
+            </option>
+            {[...Array(61)].map((_, i) => (
+              <option key={i} value={i}>
+                {i}
+              </option>
+            ))}
+          </select>
         </form>
 
         <h2 className="text-2xl font-bold text-center">
@@ -134,11 +144,16 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90">
             <div className="bg-white w-80 md:w-100 h-100 p-6 rounded-md border-2 flex flex-col items-center justify-between gap-3">
               <h1>Time Start</h1>
-              {!timeUp && (
-                <h2 className="text-2xl font-bold text-center">
-                  {minutes}m {seconds}s
-                </h2>
-              )}
+              {!timeUp &&
+                (inputMinute != 60 ? (
+                  <h2 className="text-2xl font-bold text-center">
+                    {minutes}m {seconds}s
+                  </h2>
+                ) : (
+                  <h2 className="text-2xl font-bold text-center">
+                    {hours}h {minutes}m {seconds}s
+                  </h2>
+                ))}
 
               <div className="flex gap-4">
                 <ButtonCancelTime handleCloseTime={handleCloseTime} />

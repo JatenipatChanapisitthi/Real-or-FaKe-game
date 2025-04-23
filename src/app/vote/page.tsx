@@ -14,10 +14,7 @@ export default function Home() {
 
   return (
     <div className='flex flex-col items-center justify-center'>
-      <a href="/" className="absolute bottom-2 text-sm text-black/80">
-        Back To Home
-      </a>
-      <h1 className="text-2xl font-bold">Players Words:</h1>
+      <h1 className="text-2xl font-bold">Vote Page</h1>
       <h2>{nameList.length} Players</h2>
       <ul className="m-4 flex flex-col gap-2 ">
         {nameList.map((name: string, idx: number) => (

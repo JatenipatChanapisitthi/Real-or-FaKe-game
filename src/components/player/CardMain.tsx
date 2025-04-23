@@ -32,7 +32,7 @@ const CardPlayerWord = () => {
   const [confirmReset, setConfirmReset] = useState(false);
   // set count to start
   const [countToStart, setCountToStart] = useState(1);
-  const [goStart, setGoStart] = useState(true);
+  const [goStart, setGoStart] = useState(false);
 
   const [inputMinute, setInputMinute] = useState(1);
   const [inputSeconds, setInputSeconds] = useState(30);
@@ -49,7 +49,7 @@ const CardPlayerWord = () => {
     // Random player diff
     const diffIdx = Math.floor(Math.random() * nameList.length);
     const playerDiff = nameList[diffIdx];
-    setWhoDiff(playerDiff);
+    setWhoDiff(playerDiff); 
     
     const assignedWords: Record<string, string> = {};
     // Random to swap word
@@ -66,9 +66,7 @@ const CardPlayerWord = () => {
           setWordNormal(word2)
         }
       });
-      
       setWordMap(assignedWords);
-      
     }
     
     useEffect(() => {
@@ -116,24 +114,20 @@ const CardPlayerWord = () => {
       setViewedWord([]);    
       setWhoDiff(null);     
       setCountToStart(1);          
-      setGoStart(true);
+      setGoStart(false);
       setInputMinute(1)
       setInputSeconds(30)
       setConfirmReset(!confirmReset)
     };
     
-    const goToStart = () => {
-      if (nameList.length > 0) {
-        const namesEncoded = encodeURIComponent(JSON.stringify(nameList))
-        router.push(`/game?names=${namesEncoded}`)
-      }
-    }
     const onStart = () =>{
       setTimeStart(true)
     }
 
     const logData = () =>{
       console.log("\n") 
+      console.log("count to start",countToStart)
+      console.log(`name list len = ${nameList.length}`)
       console.log(`confirm reset = ${confirmReset}`)
       console.log(`who diff = ${whoDiff}`)
       console.log(`name list = ${nameList}`)
@@ -145,6 +139,8 @@ const CardPlayerWord = () => {
       console.log(`selected name = ${selectedName}`)
       console.log(`input minute = ${inputMinute}`)
       console.log(`timeStart = ${timeStart}`)
+      console.log(`goStart = ${goStart}`)
+
     }
 
     logData();
@@ -159,6 +155,7 @@ const CardPlayerWord = () => {
         timeStart={timeStart}
         handleCloseTime={handleCloseTime}
         nameList={nameList}
+        setGoStart={setGoStart}
       />
 
       <div className="relative bg-white  border border-gray-200 gap-2 flex flex-col w-90 md:w-120 items-center justify-center p-20 rounded-sm">
@@ -181,7 +178,6 @@ const CardPlayerWord = () => {
         <AllBtn
           handleConfirmReset={handleConfirmReset}
           goStart={goStart}
-          goToStart={goToStart}
           confirmReset={confirmReset}
           wordDiff={wordDiff}
           wordNormal={wordNormal}
