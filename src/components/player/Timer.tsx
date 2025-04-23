@@ -143,17 +143,29 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
         {timeStart && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90">
             <div className="bg-white w-80 md:w-100 h-100 p-6 rounded-md border-2 flex flex-col items-center justify-between gap-3">
-              <h1>Time Start</h1>
-              {!timeUp &&
-                (inputMinute != 60 ? (
-                  <h2 className="text-2xl font-bold text-center">
-                    {minutes}m {seconds}s
-                  </h2>
+              <h1 className="text-2xl font-bold text-center">Time Start</h1>
+              <div className="relative w-47 h-47   flex justify-center items-center my-4">
+                <div
+                  style={{ animation: "spin 1.5s linear infinite" }}
+                  className={`absolute w-full h-full rounded-full border-4 ${!timeUp ? "border-blue-500" : "border-red-500"} border-t-transparent animate-spin`}>
+                </div>
+
+                {!timeUp ? (
+                  inputMinute != 60 ? (
+                    <h2 className="text-2xl font-bold text-center z-10">
+                      {minutes}m {seconds}s
+                    </h2>
+                  ) : (
+                    <h2 className="text-2xl font-bold text-center z-10">
+                      {hours}h {minutes}m {seconds}s
+                    </h2>
+                  )
                 ) : (
-                  <h2 className="text-2xl font-bold text-center">
-                    {hours}h {minutes}m {seconds}s
+                  <h2 className="text-2xl font-bold text-center z-10 text-red-500">
+                    Time Up!
                   </h2>
-                ))}
+                )}
+              </div>
 
               <div className="flex gap-4">
                 <ButtonCancelTime handleCloseTime={handleCloseTime} />
