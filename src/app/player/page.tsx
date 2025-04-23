@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { FaPlay } from "react-icons/fa";
 import { GrPowerReset } from "react-icons/gr";
 import { RxCross2 } from "react-icons/rx";
-
+import  Button  from "@/components/player/ui/ButtonStart"
 import chameleon from '../../data/thai_chameleon_game_pairs_10000.json'
 
 export default function GamePage() {
@@ -229,18 +229,7 @@ export default function GamePage() {
                 </div>
               </div>
             )}
-
-            <button
-              className={`justify-center items-center gap-2 cursor-pointer ${
-                goStart
-                ? "pointer-events-none opacity-50 border border-gray-300 "
-                : "text-white bg-green-500 hover:bg-green-300"
-              }  p-3 w-30 rounded-sm flex `}
-              onClick={goToStart}
-            >
-              <FaPlay />
-              <p className="text-sm">START</p>
-            </button>
+            <Button goStart={goStart} goToStart={goToStart} />
       
           </div>
         </div>
