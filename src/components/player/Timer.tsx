@@ -3,6 +3,8 @@ import { useEffect, useState, useRef } from "react";
 import { useRouter } from 'next/navigation'
 import ButtonCancelTime from "./ui/ButtonCancelTime";
 import ButtonVote from "./ui/ButtonVote";
+
+
 type TimerProps = {
   inputMinute: number;
   setInputMinute: React.Dispatch<React.SetStateAction<number>>;
@@ -23,9 +25,6 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
     const [showInputTime,setShowInputTime] = useState(true);
     
     const router = useRouter();
-    const inputRef = useRef<HTMLInputElement | null>(null);
-    const prevValueRefMin = useRef<number | string>(inputMinute);
-    const prevValueRefSec = useRef<number | string>(inputSeconds);
 
     useEffect(() => {
         const interval = setInterval(() =>{
@@ -34,7 +33,7 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
         const difference = target.getTime() - now.getTime()
         if (difference <= 0) {
             clearInterval(interval);
-            goToVote();
+            setTimeUp(true)
             return;
           }
           const d = Math.floor(difference / (1000*60*60*24))
@@ -57,7 +56,6 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
         return () => clearInterval(interval)
       }, [target])
       
-
       
       useEffect(() => {
         if (timeStart){
@@ -85,14 +83,24 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
       };
     }, [timeStart]);
       
-      const goToVote = () =>{  
-        if (nameList.length>0){
-          setTimeUp(true);
-          const namesEncoded = encodeURIComponent(JSON.stringify(nameList))
-          router.push(`/vote?names=${namesEncoded}`)
-        }
+    const goToVote = () => {  
+      if (nameList.length > 0) {
+        setTimeUp(true);
+        const namesEncoded = encodeURIComponent(JSON.stringify(nameList));
+    
+        const audio = new Audio("/alarm1.mp3");
+        audio.play();
+        audio.onended = () => {
+          router.push(`/vote?names=${namesEncoded}`);
+        };
       }
- 
+    };
+    
+    useEffect(() => {
+      if (timeUp) {
+        goToVote();
+      }
+    }, [timeUp]);
 
       
 
