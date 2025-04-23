@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-
+import Timer from "@/components/player/Timer"
 export default function Home() {
   const [inputName, setInputName] = useState('')
   const [nameList, setNameList] = useState<string[]>([])
@@ -27,7 +27,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center mt-10">
-        <h1>hi</h1>
+        <Timer />
     </div>
   )
 }
