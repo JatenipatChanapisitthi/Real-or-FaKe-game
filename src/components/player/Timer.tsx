@@ -151,7 +151,7 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90">
             <div className="bg-white w-80 md:w-100 h-100 p-6 rounded-md border-2 flex flex-col items-center justify-between gap-3">
               <h1 className="text-2xl font-bold text-center">Time Start</h1>
-              <div className="relative w-47 h-47   flex justify-center items-center my-4">
+              <div className="relative w-50 h-50  flex justify-center items-center my-4">
                 <div
                   style={{ animation: "spin 1.5s linear infinite" }}
                   className={`absolute w-full h-full rounded-full border-4 ${!timeUp ? "border-blue-500" : "border-red-500"} border-t-transparent animate-spin`}>
@@ -159,11 +159,11 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
 
                 {!timeUp ? (
                   inputMinute != 60 ? (
-                    <h2 className="text-2xl font-bold text-center z-10">
+                    <h2 className="text-2xl font-bold text-center z-10 animate-pulse">
                       {minutes}m {seconds}s
                     </h2>
                   ) : (
-                    <h2 className="text-2xl font-bold text-center z-10">
+                    <h2 className="text-2xl font-bold text-center z-10 animate-pulse">
                       {hours}h {minutes}m {seconds}s
                     </h2>
                   )
@@ -175,8 +175,8 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
               </div>
 
               <div className="flex gap-4">
-                <ButtonCancelTime handleCloseTime={handleCloseTime} />
-                <ButtonVote goToVote={goToVote} />
+                <ButtonCancelTime handleCloseTime={handleCloseTime} timeUp={timeUp} />
+                <ButtonVote goToVote={goToVote} timeUp={timeUp}/>
               </div>
             </div>
           </div>
