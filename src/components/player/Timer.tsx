@@ -85,20 +85,19 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
       
     const goToVote = () => {  
       if (nameList.length > 0) {
-        setTimeUp(true);
         const namesEncoded = encodeURIComponent(JSON.stringify(nameList));
-    
-        const audio = new Audio("/alarm1.mp3");
-        audio.play();
-        audio.onended = () => {
-          router.push(`/vote?names=${namesEncoded}`);
-        };
+        router.push(`/vote?names=${namesEncoded}`);
       }
     };
     
     useEffect(() => {
       if (timeUp) {
-        goToVote();
+        const audio = new Audio("/alarm1.mp3");
+        audio.play();
+        audio.onended = () => {
+          const namesEncoded = encodeURIComponent(JSON.stringify(nameList));
+          router.push(`/vote?names=${namesEncoded}`);
+        };
       }
     }, [timeUp]);
 
