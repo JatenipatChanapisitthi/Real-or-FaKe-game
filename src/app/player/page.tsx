@@ -1,12 +1,12 @@
 'use client'
 
-import CardPlayerWord from '@/components/player/CardPlayerWord'
+import CardMain from '@/components/player/CardMain'
 
 export default function GamePage() {
     
     return (
       <div >
-        <CardPlayerWord />
+        <CardMain />
       </div>
     );
 }
