@@ -6,9 +6,7 @@ type ButtonProps = {
   goToStart: () => void;
 };
 
-const Button: React.FC<ButtonProps> = ({ goStart, goToStart }) => {
-
-  return (
+const ButtonStart: React.FC<ButtonProps> = ({ goStart, goToStart }) => { return (
     <div>
         <button
             className={`justify-center items-center gap-2 cursor-pointer ${
@@ -25,4 +23,4 @@ const Button: React.FC<ButtonProps> = ({ goStart, goToStart }) => {
   )
 }
 
-export default Button
+export default ButtonStart

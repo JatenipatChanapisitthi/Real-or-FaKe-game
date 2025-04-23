@@ -53,7 +53,7 @@ export default function Countdown() {
     setShowInputTIme(false);
     const now = new Date()
     const safeMinutes = isNaN(minutes) ? 0 : inputMinute;
-    const safeSeconds = isNaN(seconds) ? 0 : inputSeconds;
+    const safeSeconds = isNaN(seconds) ? 0 : inputSeconds+2;
 
     const totalMilliseconds = (safeMinutes * 60 + safeSeconds) * 1000;
     const newTarget = new Date(now.getTime() + totalMilliseconds);
@@ -61,11 +61,12 @@ export default function Countdown() {
   };
 
     return (
-      <div>
+      <div className="bg-white  border border-gray-200 gap-2 flex flex-col w-90 md:w-120 items-center justify-center p-20 rounded-sm">
+
         <form onSubmit={handleSubmit} className="flex gap-2 mb-4">
           <input
             type="number"
-            min="1"
+            min="0"
             value={inputMinute}
             onChange={(e) => setInputMinute(parseInt(e.target.value, 10))}
             className="border p-2  w-15"
@@ -76,15 +77,9 @@ export default function Countdown() {
             min="0"
             value={inputSeconds}
             onChange={(e) => setInputSeconds(parseInt(e.target.value, 10))}
-            className="border p-2 w-15"
+            className="border p-2 w-15  text-center  appearance-none"
             placeholder="S"
           />
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded"
-          >
-            Start
-          </button>
         </form>
 
         {showInputTime ? (
