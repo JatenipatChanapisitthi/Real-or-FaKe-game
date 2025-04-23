@@ -3,10 +3,10 @@
 import { useSearchParams } from 'next/navigation'
 import { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
-import { FaPlay } from "react-icons/fa";
 import { GrPowerReset } from "react-icons/gr";
 import { RxCross2 } from "react-icons/rx";
-import  Button  from "@/components/player/ui/ButtonStart"
+import  ButtonStart  from "@/components/player/ui/ButtonStart"
+import  ButtonReset  from "@/components/player/ui/ButtonReset"
 import chameleon from '../../data/thai_chameleon_game_pairs_10000.json'
 
 export default function GamePage() {
@@ -94,7 +94,7 @@ export default function GamePage() {
       }
     }
     
-    const handleConfirmRest = () =>{
+    const handleConfirmReset = () =>{
       setConfirmReset(!confirmReset);
     }
     
@@ -184,13 +184,7 @@ export default function GamePage() {
           )}
 
           <div className="flex gap-4">
-            <button
-              className={`justify-center items-center gap-2 cursor-pointer text-white bg-red-500 hover:bg-red-300 p-3 w-30 rounded-sm flex `}
-              onClick={handleConfirmRest}
-            >
-              <GrPowerReset />
-              <p className="text-sm">RESET</p>
-            </button>
+            <ButtonReset handleConfirmReset={handleConfirmReset} />
 
             {confirmReset && (
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90">
@@ -207,7 +201,7 @@ export default function GamePage() {
 
                   <div className="flex gap-4">
                     <button
-                      onClick={handleConfirmRest}
+                      onClick={handleConfirmReset}
                       className="cursor-pointer w-30 h-10  rounded-sm text-white bg-black hover:bg-gray-600"
                     >
                       <div className="flex items-center justify-center gap-1">
@@ -229,7 +223,7 @@ export default function GamePage() {
                 </div>
               </div>
             )}
-            <Button goStart={goStart} goToStart={goToStart} />
+            <ButtonStart goStart={goStart} goToStart={goToStart} />
       
           </div>
         </div>
