@@ -21,7 +21,9 @@ export default function Home() {
         setNameList([...nameList, inputName.trim()])
         setInputName('')
       }
+
   }
+ 
 
 
   console.log(nameList)
