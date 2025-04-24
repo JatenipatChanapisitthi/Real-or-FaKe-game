@@ -117,9 +117,9 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
             <option value="" disabled>
               Minute
             </option>
-            {[...Array(61)].map((_, i) => (
-              <option key={i} value={i}>
-                {i}
+            {[...Array(60)].map((_, i) => (
+              <option key={i+1} value={i+1}>
+                {i+1}
               </option>
             ))}
           </select>
