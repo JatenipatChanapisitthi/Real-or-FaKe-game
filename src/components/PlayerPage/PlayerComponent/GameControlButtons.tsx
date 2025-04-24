@@ -1,7 +1,7 @@
 import React from 'react'
-import ButtonReset from './ui/ButtonReset';
-import ButtonStart from './ui/ButtonStart';
-import ConfirmReset from './ConfirmReset';
+import ButtonReset from '@/components/PlayerPage/ui/ButtonReset';
+import ButtonStart from '@/components/PlayerPage/ui/ButtonStart';
+import ConfirmReset from '@/components/PlayerPage/PlayerComponent/ConfirmReset';
 
 type AllBtnProps = {    
   handleConfirmReset: () => void;
@@ -14,7 +14,7 @@ type AllBtnProps = {
 };
 
 
-const AllBtn: React.FC<AllBtnProps> = ({handleConfirmReset, goStart, confirmReset, wordDiff, wordNormal, handleResetClick, onStart}) => {
+const GameControlButtons: React.FC<AllBtnProps> = ({handleConfirmReset, goStart, confirmReset, wordDiff, wordNormal, handleResetClick, onStart}) => {
   return (
     <div className="flex gap-4">
       <ButtonReset handleConfirmReset={handleConfirmReset} />
@@ -31,4 +31,4 @@ const AllBtn: React.FC<AllBtnProps> = ({handleConfirmReset, goStart, confirmRese
   )
 }
 
-export default AllBtn
+export default GameControlButtons

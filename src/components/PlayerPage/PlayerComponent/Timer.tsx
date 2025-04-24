@@ -1,8 +1,8 @@
 "use client"; 
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from 'next/navigation'
-import ButtonCancelTime from "./ui/ButtonCancelTime";
-import ButtonVote from "./ui/ButtonVote";
+import ButtonCancelTime from "@/components/PlayerPage/ui/ButtonCancelTime";
+import ButtonVote from "@/components/PlayerPage/ui/ButtonVote";
 
 
 type TimerProps = {
