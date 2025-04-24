@@ -1,5 +1,5 @@
 import React from 'react'
-import ButtonClose from './ui/ButtonClose';
+import ButtonClose from '@/components/PlayerPage/ui/ButtonClose';
 
 
 type ButtonProps = {
