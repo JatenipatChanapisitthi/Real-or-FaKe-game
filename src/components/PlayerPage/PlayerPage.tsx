@@ -5,13 +5,13 @@ import { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 
 
-import  Timer   from '@/components/player/Timer'
-import chameleon from '../../data/thai_chameleon_game_pairs_10000.json'
-import ViewWord from '@/components/player/ViewWord'
-import PlayerCard from '@/components/player/PlayerCard'
-import AllBtn from './AllBtn'
+import  Timer   from '@/components/PlayerPage/PlayerComponent/Timer'
+import chameleon from '@/data/thai_chameleon_game_pairs_10000.json'
+import ViewWord from '@/components/PlayerPage/PlayerComponent/ViewWord'
+import PlayerCard from '@/components/PlayerPage/PlayerComponent/PlayerCard'
+import GameControlBtn from '@/components/PlayerPage/PlayerComponent/GameControlButtons'
 
-const CardPlayerWord = () => {
+const PlayerPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const rawNames = searchParams.get('names');
@@ -175,7 +175,7 @@ const CardPlayerWord = () => {
           wordMap={wordMap}
           handleViewWordClick={handleViewWordClick}
         />
-        <AllBtn
+        <GameControlBtn
           handleConfirmReset={handleConfirmReset}
           goStart={goStart}
           confirmReset={confirmReset}
@@ -189,4 +189,4 @@ const CardPlayerWord = () => {
   );
 }
 
-export default CardPlayerWord
+export default PlayerPage

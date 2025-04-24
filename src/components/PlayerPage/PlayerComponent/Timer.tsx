@@ -1,8 +1,8 @@
 "use client"; 
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from 'next/navigation'
-import ButtonCancelTime from "./ui/ButtonCancelTime";
-import ButtonVote from "./ui/ButtonVote";
+import ButtonCancelTime from "@/components/PlayerPage/ui/ButtonCancelTime";
+import ButtonVote from "@/components/PlayerPage/ui/ButtonVote";
 
 
 type TimerProps = {
@@ -117,9 +117,9 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
             <option value="" disabled>
               Minute
             </option>
-            {[...Array(61)].map((_, i) => (
-              <option key={i} value={i}>
-                {i}
+            {[...Array(60)].map((_, i) => (
+              <option key={i+1} value={i+1}>
+                {i+1}
               </option>
             ))}
           </select>

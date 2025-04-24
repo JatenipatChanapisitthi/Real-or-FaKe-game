@@ -1,6 +1,6 @@
 import React from 'react'
-import ButtonCancel from './ui/ButtonCancel';
-import ButtonConfirm from './ui/ButtonConfirm';
+import ButtonCancel from '../ui/ButtonCancel';
+import ButtonConfirm from '../ui/ButtonConfirm';
 
 
 type ButtonProps = {
