@@ -8,12 +8,21 @@ export default function Home() {
   const [nameList, setNameList] = useState<string[]>([])
   const router = useRouter()
 
-  const addName = () => {
-    if (inputName.trim() !== '') {
-      setNameList([...nameList, inputName.trim()])
-      setInputName('')
+  const addNameKeyboard = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      if (inputName.trim() !== '' && !nameList.includes(inputName)) {
+        setNameList([...nameList, inputName.trim()])
+        setInputName('')
+      }
     }
   }
+  const addNameClick = () => {
+      if (inputName.trim() !== '' && !nameList.includes(inputName)) {
+        setNameList([...nameList, inputName.trim()])
+        setInputName('')
+      }
+  }
+
 
   console.log(nameList)
   console.log(nameList.length)
@@ -35,8 +44,9 @@ export default function Home() {
           className="border p-2"
           value={inputName}
           onChange={(e) => setInputName(e.target.value)}
+          onKeyDown={addNameKeyboard}
         />
-        <button className="border border-green-500 p-2" onClick={addName}>
+        <button className="border border-green-500 p-2" onClick={addNameClick}>
           Add
         </button>
       </div>
