@@ -83,7 +83,7 @@ const handleCancelClick = () => {
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className="flex flex-col  gap-2 border border-black/40 rounded-sm p-5 w-90 md:w-120">
+      <div className="flex flex-col  gap-2 border border-gray-200 rounded-sm p-5 w-90 md:w-120">
         <div className="flex gap-4 items-center">
           <IoPersonAdd className="text-xl h-auto w-auto" />
           <h1 className="font-bold">Add Player</h1>
@@ -109,7 +109,7 @@ const handleCancelClick = () => {
           )}
       </div>
 
-      <div className="flex flex-col  gap-2 border border-black/40 rounded-sm p-5 w-90 md:w-120 ">
+      <div className="flex flex-col  gap-2 border border-gray-200 rounded-sm p-5 w-90 md:w-120 ">
         {nameList.length > 1 ? (
           <h1 className="font-bold">{nameList.length} Players</h1>
         ) : (
@@ -118,7 +118,7 @@ const handleCancelClick = () => {
         <ul className="mb-4 flex flex-col gap-2">
           {nameList.map((name, index) => (
             <div key={index} className="flex items-center gap-2">
-              <li className={` bg-black/10 rounded-sm p-2 w-full flex items-center justify-center text-xl font-bold`}>
+              <li className={` bg-gray-200/90 rounded-sm p-2 w-full flex items-center justify-center text-xl font-bold`}>
                 {isEditing && editNameIndex === index ? (
                   <input
                     type="text"
