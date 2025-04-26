@@ -24,10 +24,9 @@ const PlayerCard: React.FC<PlayerCardProps> = ({nameList, viewedWord, handleView
         {nameList.map((name: string, idx: number) => (
           <li
             onClick={() => {
-              if (!viewedWord.includes(name)) {
-                handleViewWordClick(name);
-              }
-              if (countToStart === nameList.length ) {
+              if (viewedWord.includes(name)) return; 
+              handleViewWordClick(name);
+              if (countToStart === nameList.length && inputMinute !== 0) {
                 setGoStart(true)
               }
             }}
