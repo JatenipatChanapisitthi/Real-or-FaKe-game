@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Footer from "@/components/layout/Credit";
-import Title from '@/components/layout/Title'
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -16,7 +15,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="vsc-initialized">
-        <Title />
         {children}
         <Footer />
       </body>
