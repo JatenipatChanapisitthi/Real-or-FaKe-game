@@ -6,7 +6,9 @@ export default function GamePage() {
     
     return (
       <Suspense fallback={<div>Loading...</div>}>
-        <PlayerPage />
+        <div className='min-h-screen'>
+          <PlayerPage />
+        </div>
       </Suspense>
     );
 }

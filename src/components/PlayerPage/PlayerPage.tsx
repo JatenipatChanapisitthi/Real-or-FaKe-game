@@ -146,7 +146,7 @@ const PlayerPage = () => {
     logData();
     
   return (
-    <div className="flex flex-col min-h-screen items-center justify-center p-4 gap-3">
+    <div className="flex flex-col items-center justify-center p-4 gap-3">
       <Timer
         inputMinute={inputMinute}
         setInputMinute={setInputMinute}
