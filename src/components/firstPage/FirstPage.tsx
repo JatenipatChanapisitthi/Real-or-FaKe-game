@@ -15,6 +15,7 @@ export default function Home() {
   const [editName, setEditName] = useState("");
   const [editNameIndex, setEditNameIndex] =  useState<number | null>(null);
   const [isSameName, setIsSameName] = useState(false);
+  
 
   const router = useRouter()
 
@@ -23,6 +24,10 @@ export default function Home() {
       if (inputName.trim() !== '' && !nameList.includes(inputName)) {
         setNameList([...nameList, inputName.trim()])
         setInputName('')
+        setIsSameName(false)
+      }
+      else{
+        setIsSameName(true)
       }
     }
   }
@@ -83,6 +88,7 @@ const handleCancelClick = () => {
 
   return (
     <div className="flex flex-col items-center gap-4">
+
       <div className="flex flex-col bg-white gap-2 border border-gray-200 rounded-sm p-5 w-90 md:w-120">
         <div className="flex gap-4 items-center">
           <IoPersonAdd className="text-xl h-auto w-auto" />
@@ -109,12 +115,14 @@ const handleCancelClick = () => {
           )}
       </div>
 
+
       <div className="flex flex-col bg-white gap-2 border border-gray-200 rounded-sm p-5 w-90 md:w-120 ">
         {nameList.length > 1 ? (
           <h1 className="font-bold">{nameList.length} Players</h1>
         ) : (
           <h1 className="font-bold">{nameList.length} Player</h1>
         )}
+
         <ul className="mb-4 flex flex-col gap-2">
           {nameList.map((name, index) => (
             <div key={index} className="flex items-center gap-2">
@@ -177,9 +185,8 @@ const handleCancelClick = () => {
         </ul>
 
         <button
-          // className="bg-green-500 p-2 text-white font-bold"
           className={`${
-            nameList.length >= 3
+            nameList.length >= 3 && !isEditing
               ? "bg-green-500  text-white cursor-pointer hover:bg-green-400"
               : "pointer-events-none opacity-50 border border-gray-300"
           } p-2  font-bold`}
