@@ -26,7 +26,6 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
     const [seconds, setSeconds] = useState(0);
     const [target, setTarget] = useState<Date | null>(null);
     const [showInputTime,setShowInputTime] = useState(true);
-    
     const router = useRouter();
 
     useEffect(() => {
@@ -88,11 +87,15 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
       
     const goToVote = () => {  
       if (nameList.length > 0) {
-        const namesEncoded = encodeURIComponent(JSON.stringify(nameList));
-        const whoDiffEncoded = encodeURIComponent(whoDiff ?? "");
-        const wordDiffEncoded = encodeURIComponent(wordDiff);
-        const wordNormalEncoded = encodeURIComponent(wordNormal);
-        router.push(`/vote?names=${namesEncoded}&whoDiff=${whoDiffEncoded}&wordDiff=${wordDiffEncoded}&wordNormal=${wordNormalEncoded}`);
+        localStorage.setItem("voteData", JSON.stringify({
+          nameList,
+          whoDiff,
+          wordDiff,
+          wordNormal,
+          inputMinute,
+          inputSeconds,
+        }));
+        router.push("/vote");
       }
     };
     
@@ -101,11 +104,15 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
         const audio = new Audio("/alarm1.mp3");
         audio.play();
         audio.onended = () => {
-          const namesEncoded = encodeURIComponent(JSON.stringify(nameList));
-          const whoDiffEncoded = encodeURIComponent(whoDiff ?? '');
-          const wordDiffEncoded = encodeURIComponent(wordDiff);
-          const wordNormalEncoded = encodeURIComponent(wordNormal);
-          router.push(`/vote?names=${namesEncoded}&whoDiff=${whoDiffEncoded}&wordDiff=${wordDiffEncoded}&wordNormal=${wordNormalEncoded}`);
+        localStorage.setItem("voteData", JSON.stringify({
+          nameList,
+          whoDiff,
+          wordDiff,
+          wordNormal,
+          inputMinute,
+          inputSeconds,
+        }));
+        router.push("/vote");
         };
       }
     }, [timeUp]);
@@ -138,7 +145,6 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
             onChange={(e) => {
               setInputSeconds(Number(e.target.value));
             }}
-            // className="border p-2 w-15 text-center appearance-none rounded-sm"
             className="border border-gray-300 rounded-sm px-4 py-2 text-center text-gray-700 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none relative"
           >
             <option value="" disabled>
