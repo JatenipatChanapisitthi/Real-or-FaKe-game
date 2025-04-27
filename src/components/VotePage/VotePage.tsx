@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import { useState, useEffect, useMemo } from 'react'
 
 export default function VotePage() {
-  const [score , setscore ] = useState(false);
+  const [score , setScore ] = useState(false);
   const [vote , setVote] = useState<{[name : string] : number}> ({})
   const [maxName , setMaxName ] = useState<string | null> (null)
   const [currentIndex , setCurrentIndex] = useState(0);
@@ -31,6 +31,7 @@ export default function VotePage() {
   }
 console.log(maxName)
 console.log(vote)
+
   return (
     <div className='flex flex-col items-center justify-center'>
       <h1 className="text-2xl font-bold">Vote Page</h1>
