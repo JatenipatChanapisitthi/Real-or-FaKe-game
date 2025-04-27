@@ -1,17 +1,15 @@
 "use client"; 
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from 'next/navigation'
-import ButtonCancelTime from "@/components/PlayerPage/ui/ButtonCancelTime";
-import ButtonVote from "@/components/PlayerPage/ui/ButtonVote";
 
 
 type TimerProps = {
   inputMinute: number;
-  inputSeconds: number;
+  inputSecond: number;
   onTimeUp: () => void; // <<< เพิ่มตรงนี้
 };
 
-const Timer: React.FC<TimerProps> = ({ inputMinute, inputSeconds, onTimeUp }) => {
+const Timer: React.FC<TimerProps> = ({ inputMinute, inputSecond, onTimeUp }) => {
     const [timeUp, setTimeUp] = useState(false);
     const [days, setDays] = useState(0);
     const [hours, setHours] = useState(0);
@@ -63,7 +61,7 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, inputSeconds, onTimeUp }) =>
         if (timeStart){
           const now = new Date()
           const safeMinutes = isNaN(minutes) ? 0 : inputMinute;
-          const safeSeconds = isNaN(seconds) ? 0 : inputSeconds+2;
+          const safeSeconds = isNaN(seconds) ? 0 : inputSecond+2;
           
           const totalMilliseconds = (safeMinutes * 60 + safeSeconds) * 1000;
           const newTarget = new Date(now.getTime() + totalMilliseconds);

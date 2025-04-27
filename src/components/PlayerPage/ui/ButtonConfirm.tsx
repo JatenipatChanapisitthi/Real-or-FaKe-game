@@ -1,12 +1,36 @@
-import React from 'react'
+import { usePlayer } from "@/components/PlayerPage/contexts/PlayerContext";
 import { GrPowerReset } from "react-icons/gr";
 
-type ButtonProps = {
-  handleResetClick: () => void;
-};
-const ButtonConfirm : React.FC<ButtonProps> = ({ handleResetClick }) => { 
+
+
+const ButtonConfirm = () => {
+  const {
+    isConfirmReset,
+    setWhoDiff,
+    setViewedWord,
+    setCountToStart,
+    setSelectedName,
+    setIsConfirmReset,
+    setInputMinute,
+    setInputSecond,
+    setIsGoToStart,
+    setIsShowWord,
+    setStartAndRandomWord,
+  } = usePlayer();
+
+  const handleResetClick = () => {
+    setStartAndRandomWord();            
+    setIsShowWord(false);   
+    setSelectedName(null);
+    setViewedWord([]);    
+    setWhoDiff(null);     
+    setCountToStart(1);          
+    setIsGoToStart(false);
+    setInputMinute(1)
+    setInputSecond(30)
+    setIsConfirmReset(!isConfirmReset)
+  };
   return (
-    <div>
       <button
         onClick={handleResetClick}
         className="cursor-pointer w-30 h-10  rounded-sm text-white bg-red-500 hover:bg-red-300"
@@ -16,8 +40,7 @@ const ButtonConfirm : React.FC<ButtonProps> = ({ handleResetClick }) => {
           <p>Confirm</p>
         </div>
       </button>
-    </div>
-  );
+  )
 }
 
 export default ButtonConfirm

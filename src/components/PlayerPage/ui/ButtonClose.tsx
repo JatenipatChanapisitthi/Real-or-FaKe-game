@@ -1,12 +1,21 @@
-import React from 'react'
+import { usePlayer } from "@/components/PlayerPage/contexts/PlayerContext";
 import { RxCross2 } from "react-icons/rx";
 
-type ButtonProps = {
-  handleViewWordClick: () => void;
-};
-const ButtonClose : React.FC<ButtonProps> = ({ handleViewWordClick }) => { 
+const ButtonClose = () => {
+  const {nameList, viewedWord, countToStart, isShowWord, selectedName, wordMap, setSelectedName, setIsShowWord, setViewedWord, setCountToStart, setIsGoToStart} = usePlayer();
+  const handleViewWordClick = (name?: string) => {
+    if (name) {
+      setSelectedName(name);
+      setIsShowWord(true);
+      setViewedWord((prev) => (prev.includes(name) ? prev : [...prev, name]));
+      setCountToStart((prev) => prev + 1);
+      
+    } else {
+      setIsShowWord(false);
+      setSelectedName(null);
+    }
+  }
   return (
-    <div>
       <button
         onClick={() => handleViewWordClick()}
         className="cursor-pointer w-30 h-10  rounded-sm text-white bg-red-500 "
@@ -16,8 +25,7 @@ const ButtonClose : React.FC<ButtonProps> = ({ handleViewWordClick }) => {
           <p>Close</p>
         </div>
       </button>
-    </div>
-  );
+  )
 }
 
 export default ButtonClose
