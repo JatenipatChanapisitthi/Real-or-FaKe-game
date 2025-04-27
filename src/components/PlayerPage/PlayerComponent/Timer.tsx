@@ -14,8 +14,11 @@ type TimerProps = {
   handleCloseTime: () => void;
   nameList: string[];
   setGoStart: (value: boolean) => void;
+  whoDiff: string | null;
+  wordDiff: string;
+  wordNormal: string;
 };
-const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds , setInputSeconds, timeStart, handleCloseTime, nameList, setGoStart}) => {
+const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds , setInputSeconds, timeStart, handleCloseTime, nameList, setGoStart, wordDiff, whoDiff, wordNormal}) => {
     const [timeUp, setTimeUp] = useState(false);
     const [days, setDays] = useState(0);
     const [hours, setHours] = useState(0);
@@ -86,7 +89,10 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
     const goToVote = () => {  
       if (nameList.length > 0) {
         const namesEncoded = encodeURIComponent(JSON.stringify(nameList));
-        router.push(`/vote?names=${namesEncoded}`);
+        const whoDiffEncoded = encodeURIComponent(whoDiff ?? "");
+        const wordDiffEncoded = encodeURIComponent(wordDiff);
+        const wordNormalEncoded = encodeURIComponent(wordNormal);
+        router.push(`/vote?names=${namesEncoded}&whoDiff=${whoDiffEncoded}&wordDiff=${wordDiffEncoded}&wordNormal=${wordNormalEncoded}`);
       }
     };
     
@@ -96,7 +102,10 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
         audio.play();
         audio.onended = () => {
           const namesEncoded = encodeURIComponent(JSON.stringify(nameList));
-          router.push(`/vote?names=${namesEncoded}`);
+          const whoDiffEncoded = encodeURIComponent(whoDiff ?? '');
+          const wordDiffEncoded = encodeURIComponent(wordDiff);
+          const wordNormalEncoded = encodeURIComponent(wordNormal);
+          router.push(`/vote?names=${namesEncoded}&whoDiff=${whoDiffEncoded}&wordDiff=${wordDiffEncoded}&wordNormal=${wordNormalEncoded}`);
         };
       }
     }, [timeUp]);

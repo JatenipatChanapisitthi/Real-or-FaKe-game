@@ -11,6 +11,9 @@ export default function VotePage() {
   const [currentIndex , setCurrentIndex] = useState(0);
   const searchParams = useSearchParams();
   const rawNames = searchParams.get('names');
+  const whoDiff = searchParams.get('whoDiff');
+  const wordDiff = searchParams.get('wordDiff');
+  const wordNormal = searchParams.get('wordNormal')
 
   const nameList = useMemo(() => {
     return rawNames ? JSON.parse(decodeURIComponent(rawNames)) : [];
@@ -34,6 +37,10 @@ console.log(vote)
 
   return (
     <div className='flex flex-col items-center justify-center'>
+
+       <p>ผู้เล่นแตกต่างคือ: {whoDiff}</p>
+       <p>คำแตกต่างคือ: {wordDiff}</p>
+       <p>คำที่ไม่แตกต่างคือ: {wordNormal}</p>
       <h1 className="text-2xl font-bold">Vote Page</h1>
       <h2>{nameList.length} Players</h2>
       <h1>{nameList[currentIndex]}</h1>
