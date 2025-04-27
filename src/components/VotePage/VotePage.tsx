@@ -18,7 +18,7 @@ export default function VotePage() {
     wordDiff: string,
     wordNormal: string
     inputMinute: number;
-    inputSeconds: number;
+    inputSecond: number;
   } | null>(null);
 
   useEffect(() => {
@@ -98,7 +98,7 @@ export default function VotePage() {
     return <Loading />; // Show loading screen while data is being fetched
   }
   console.log(voteData.inputMinute)
-  console.log(voteData.inputSeconds)
+  console.log(voteData.inputSecond)
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -160,7 +160,7 @@ export default function VotePage() {
               <h1>Tie vote - No one was eliminated</h1>
               <Timer
                 inputMinute={voteData.inputMinute}
-                inputSeconds={voteData.inputSeconds}
+                inputSecond={voteData.inputSecond}
                 onTimeUp={handleTimeUp}
               />
             </div>

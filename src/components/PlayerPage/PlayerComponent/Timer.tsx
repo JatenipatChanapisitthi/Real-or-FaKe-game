@@ -1,25 +1,12 @@
 "use client"; 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState} from "react";
 import { useRouter } from 'next/navigation'
-import ButtonCancelTime from "@/components/PlayerPage/ui/ButtonCancelTime";
+import { usePlayer } from "@/components/PlayerPage/contexts/PlayerContext";
 import ButtonVote from "@/components/PlayerPage/ui/ButtonVote";
+import ButtonCancelTime from "@/components/PlayerPage/ui/ButtonCancelTime";
 
-
-type TimerProps = {
-  inputMinute: number;
-  setInputMinute: React.Dispatch<React.SetStateAction<number>>;
-  inputSeconds: number;
-  setInputSeconds: React.Dispatch<React.SetStateAction<number>>;
-  timeStart: boolean;
-  handleCloseTime: () => void;
-  nameList: string[];
-  setGoStart: (value: boolean) => void;
-  whoDiff: string | null;
-  wordDiff: string;
-  wordNormal: string;
-};
-const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds , setInputSeconds, timeStart, handleCloseTime, nameList, setGoStart, wordDiff, whoDiff, wordNormal}) => {
-    const [timeUp, setTimeUp] = useState(false);
+const Timer = () => { 
+    const { isTimeUp, nameList, isShowWord, selectedName, viewedWord, whoDiff, wordDiff, wordNormal, wordMap, isConfirmReset, countToStart, isGoToStart, inputMinute, inputSecond, isTimeStart ,setInputMinute, setInputSecond, setIsTimeUp } = usePlayer();
     const [days, setDays] = useState(0);
     const [hours, setHours] = useState(0);
     const [minutes, setMinutes] = useState(0);
@@ -35,7 +22,7 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
         const difference = target.getTime() - now.getTime()
         if (difference <= 0) {
             clearInterval(interval);
-            setTimeUp(true)
+            setIsTimeUp(true)
             return;
           }
           const d = Math.floor(difference / (1000*60*60*24))
@@ -52,7 +39,7 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
           setSeconds(s)
           
           if(d<=0 && h<=0 && m<=0 && s<=0){
-            setTimeUp(true)
+            setIsTimeUp(true)
           }
         }, 1000)
         return () => clearInterval(interval)
@@ -60,10 +47,10 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
       
       
       useEffect(() => {
-        if (timeStart){
+        if (isTimeStart){
           const now = new Date()
           const safeMinutes = isNaN(minutes) ? 0 : inputMinute;
-          const safeSeconds = isNaN(seconds) ? 0 : inputSeconds+2;
+          const safeSeconds = isNaN(seconds) ? 0 : inputSecond+2;
           
           const totalMilliseconds = (safeMinutes * 60 + safeSeconds) * 1000;
           const newTarget = new Date(now.getTime() + totalMilliseconds);
@@ -71,10 +58,10 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
           setShowInputTime(false);
           
         }
-      }, [timeStart])
+      }, [isTimeStart])
       
     useEffect(() => {
-      if (timeStart) {
+      if (isTimeStart) {
         document.body.style.overflow = "hidden";
       } else {
         document.body.style.overflow = "";
@@ -83,24 +70,12 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
       return () => {
         document.body.style.overflow = "";
       };
-    }, [timeStart]);
+    }, [isTimeStart]);
       
-    const goToVote = () => {  
-      if (nameList.length > 0) {
-        localStorage.setItem("voteData", JSON.stringify({
-          nameList,
-          whoDiff,
-          wordDiff,
-          wordNormal,
-          inputMinute,
-          inputSeconds,
-        }));
-        router.push("/vote");
-      }
-    };
+     
     
     useEffect(() => {
-      if (timeUp) {
+      if (isTimeUp) {
         const audio = new Audio("/alarm1.mp3");
         audio.play();
         audio.onended = () => {
@@ -110,16 +85,14 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
           wordDiff,
           wordNormal,
           inputMinute,
-          inputSeconds,
+          inputSecond,
         }));
         router.push("/vote");
         };
       }
-    }, [timeUp]);
-
-      
-
-    return (
+    }, [isTimeUp]);
+    
+  return (
       <div className="bg-white  border border-gray-200 gap-2 p-6 flex flex-col w-90 md:w-120 items-center justify-center rounded-sm">
         <h1 className="text-2xl font-bold">Time Setup</h1>
         <form className="flex gap-2 mb-4">
@@ -141,9 +114,9 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
           </select>
 
           <select
-            value={inputSeconds === 0 ? inputSeconds : inputSeconds}
+            value={inputSecond === 0 ? inputSecond : inputSecond}
             onChange={(e) => {
-              setInputSeconds(Number(e.target.value));
+              setInputSecond(Number(e.target.value));
             }}
             className="border border-gray-300 rounded-sm px-4 py-2 text-center text-gray-700 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none relative"
           >
@@ -159,20 +132,20 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
         </form>
 
         <h2 className="text-2xl font-bold text-center">
-          {inputMinute}m {inputSeconds}s
+          {inputMinute}m {inputSecond}s
         </h2>
 
-        {timeStart && (
+        {isTimeStart && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90">
             <div className="bg-white w-80 md:w-100 h-100 p-6 rounded-md border-2 flex flex-col items-center justify-between gap-3">
               <h1 className="text-2xl font-bold text-center">Time Start</h1>
               <div className="relative w-50 h-50  flex justify-center items-center my-4">
                 <div
                   style={{ animation: "spin 1.5s linear infinite" }}
-                  className={`absolute w-full h-full rounded-full border-4 ${!timeUp ? "border-blue-500" : "border-red-500"} border-t-transparent animate-spin`}>
+                  className={`absolute w-full h-full rounded-full border-4 ${!isTimeUp ? "border-blue-500" : "border-red-500"} border-t-transparent animate-spin`}>
                 </div>
 
-                {!timeUp ? (
+                {!isTimeUp ? (
                   inputMinute != 60 ? (
                     <h2 className="text-2xl font-bold text-center z-10 animate-pulse">
                       {minutes}m {seconds}s
@@ -190,16 +163,14 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
               </div>
 
               <div className="flex gap-4">
-                <ButtonCancelTime handleCloseTime={handleCloseTime} timeUp={timeUp} />
-                <ButtonVote goToVote={goToVote} timeUp={timeUp}/>
+                <ButtonCancelTime />
+                <ButtonVote />
               </div>
             </div>
           </div>
         )}
       </div>
     );
-
-     
 }
 
 export default Timer
