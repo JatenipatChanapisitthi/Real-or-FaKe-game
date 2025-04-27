@@ -1,10 +1,10 @@
-import FirstPage from "@/components/HomePage/HomePage"
+import HomePage from "@/components/HomePage/HomePage"
 
 export default function Home() {
 
   return (
     <div className="min-h-screen">
-      <FirstPage />
+      <HomePage />
     </div>
   );
 }

@@ -97,6 +97,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       });
       setWordMap(assignedWords);
     }
+    
   return (
     <PlayerContext.Provider
       value={{
