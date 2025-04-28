@@ -156,6 +156,9 @@ const PlayerPage = () => {
         handleCloseTime={handleCloseTime}
         nameList={nameList}
         setGoStart={setGoStart}
+        whoDiff={whoDiff}
+        wordDiff={wordDiff}
+        wordNormal={wordNormal}
       />
 
       <div className="relative bg-white  border border-gray-200 gap-2 flex flex-col w-90 md:w-120 items-center justify-center p-20 rounded-sm">

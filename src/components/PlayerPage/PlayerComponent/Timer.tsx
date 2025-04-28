@@ -14,8 +14,11 @@ type TimerProps = {
   handleCloseTime: () => void;
   nameList: string[];
   setGoStart: (value: boolean) => void;
+  whoDiff: string | null;
+  wordDiff: string;
+  wordNormal: string;
 };
-const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds , setInputSeconds, timeStart, handleCloseTime, nameList, setGoStart}) => {
+const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds , setInputSeconds, timeStart, handleCloseTime, nameList, setGoStart, wordDiff, whoDiff, wordNormal}) => {
     const [timeUp, setTimeUp] = useState(false);
     const [days, setDays] = useState(0);
     const [hours, setHours] = useState(0);
@@ -85,8 +88,13 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
       
     const goToVote = () => {  
       if (nameList.length > 0) {
-        const namesEncoded = encodeURIComponent(JSON.stringify(nameList));
-        router.push(`/vote?names=${namesEncoded}`);
+        localStorage.setItem("voteData", JSON.stringify({
+          nameList,
+          whoDiff,
+          wordDiff,
+          wordNormal
+        }));
+        router.push("/vote");
       }
     };
     
@@ -95,8 +103,13 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
         const audio = new Audio("/alarm1.mp3");
         audio.play();
         audio.onended = () => {
-          const namesEncoded = encodeURIComponent(JSON.stringify(nameList));
-          router.push(`/vote?names=${namesEncoded}`);
+        localStorage.setItem("voteData", JSON.stringify({
+          nameList,
+          whoDiff,
+          wordDiff,
+          wordNormal
+        }));
+        router.push("/vote");
         };
       }
     }, [timeUp]);
@@ -129,7 +142,6 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, setInputMinute, inputSeconds
             onChange={(e) => {
               setInputSeconds(Number(e.target.value));
             }}
-            // className="border p-2 w-15 text-center appearance-none rounded-sm"
             className="border border-gray-300 rounded-sm px-4 py-2 text-center text-gray-700 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none relative"
           >
             <option value="" disabled>
