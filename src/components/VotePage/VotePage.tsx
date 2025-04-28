@@ -12,6 +12,7 @@ export default function VotePage() {
   const [maxName, setMaxName] = useState<string>("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAllEqual, setIsAllEqual] = useState(false);
+  const [playerVoteDone, setIsPlayerVoteDone] = useState(false);
   const [voteData, setVoteData] = useState<{
     nameList: string[],
     whoDiff: string,
@@ -82,6 +83,7 @@ export default function VotePage() {
   const handlePlayerClick = (name: string) => {
     // Vote for the selected player
     handleVote(name);
+    setIsPlayerVoteDone(true);
     
     // Move to the next player's turn
     if (currentIndex < nameList.length - 1) {
@@ -167,6 +169,25 @@ export default function VotePage() {
           </div>
         </div>
       )}
+      {playerVoteDone && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90">
+          <div className="bg-white w-80 md:w-100 h-100 p-6 rounded-md border-2 flex flex-col justify-center items-center gap-2">
+            <div className="flex flex-col items-center gap-14">
+              <h1 className="text-2xl font-bold">You Vote Success</h1>
+              <h1>next vote is {nameList[currentIndex]}</h1>
+              <button
+                onClick={() => {
+                  setIsPlayerVoteDone(false);
+                }}
+                className="cursor-pointer w-30 h-10 rounded-sm text-white bg-green-500 hover:bg-green-600"
+              >
+                next
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
