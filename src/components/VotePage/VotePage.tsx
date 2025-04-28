@@ -6,6 +6,9 @@ import ButtonPlayAgain from '@/components/VotePage/ui/ButtonPlayAgain'
 import Link from 'next/link'
 import Timer from '@/components/VotePage/VoteComponent/Timer'
 
+  const randomTextClass = () => { //color random
+    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+  }
 export default function VotePage() {
   const [score, setScore] = useState(false);
   const [vote, setVote] = useState<{[name: string]: number}>({});
@@ -20,6 +23,7 @@ export default function VotePage() {
     inputMinute: number;
     inputSecond: number;
   } | null>(null);
+  const [textColor, setTextColor] = useState(randomTextClass());
 
   useEffect(() => {
     const storedData = localStorage.getItem("voteData");
@@ -100,11 +104,13 @@ export default function VotePage() {
   console.log(voteData.inputMinute)
   console.log(voteData.inputSecond)
 
+
+
   return (
     <div className="flex flex-col items-center justify-center">
-      <h1 className="text-2xl font-bold">Vote Page</h1>
-      <h2>{nameList.length} Players</h2>
-      <h1>turn "{nameList[currentIndex]}" vote</h1>
+      <h1 className="text-4xl font-bold">Vote Page</h1>
+      <h2 className='text-xl'>{nameList.length} Players</h2>
+      <h1 className='text-2xl'>turn <strong style={{color: randomTextClass()}}>"{nameList[currentIndex]}"</strong> vote</h1>
       <ul className="m-4 flex flex-col gap-2">
         {nameList.map(
           (name: string, idx: number) =>
