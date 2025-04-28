@@ -6,9 +6,6 @@ import ButtonPlayAgain from '@/components/VotePage/ui/ButtonPlayAgain'
 import Link from 'next/link'
 import Timer from '@/components/VotePage/VoteComponent/Timer'
 
-  const randomTextClass = () => { //color random
-    return '#' + Math.floor(Math.random() * 16777215).toString(16);
-  }
 export default function VotePage() {
   const [score, setScore] = useState(false);
   const [vote, setVote] = useState<{[name: string]: number}>({});
@@ -24,7 +21,17 @@ export default function VotePage() {
     inputMinute: number;
     inputSecond: number;
   } | null>(null);
-  const [textColor, setTextColor] = useState(randomTextClass());
+  const [textColor, setTextColor] = useState("#DA3E44");
+
+  useEffect(() => {
+    if (playerVoteDone) {
+      const randomTextColor = () => {
+        setTextColor("#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'));
+      };
+
+      randomTextColor(); 
+    }
+  }, [playerVoteDone]);
 
   useEffect(() => {
     const storedData = localStorage.getItem("voteData");
@@ -69,9 +76,6 @@ export default function VotePage() {
     // Find all players with the maximum vote count
     const maxVoters = Object.keys(voteResults).filter(name => voteResults[name] === maxVoteCount);
     
-    console.log("Max Vote Count:", maxVoteCount);
-    console.log("Max Voters:", maxVoters);
-    console.log("Vote Results:", voteResults);
 
     // Check if there's a clear winner
     if (maxVoters.length === 1) {
@@ -87,11 +91,11 @@ export default function VotePage() {
   const handlePlayerClick = (name: string) => {
     // Vote for the selected player
     handleVote(name);
-    setIsPlayerVoteDone(true);
     
     // Move to the next player's turn
     if (currentIndex < nameList.length - 1) {
       setCurrentIndex(prev => prev + 1);
+      setIsPlayerVoteDone(true);
     }
   }
   const handleTimeUp = () => {
@@ -103,16 +107,19 @@ export default function VotePage() {
   if (!voteData) {
     return <Loading />; // Show loading screen while data is being fetched
   }
-  console.log(voteData.inputMinute)
-  console.log(voteData.inputSecond)
-
-
+  const showNextPlayer = () => {
+    return nameList[currentIndex] == undefined ? "Voting Finished!" : `next vote is ${nameList[currentIndex]}`; 
+  }
 
   return (
     <div className="flex flex-col items-center justify-center">
       <h1 className="text-4xl font-bold">Vote Page</h1>
-      <h2 className='text-xl'>{nameList.length} Players</h2>
-      <h1 className='text-2xl'>turn <strong style={{color: randomTextClass()}}>"{nameList[currentIndex]}"</strong> vote</h1>
+      <h2 className="text-xl">{nameList.length} Players</h2>
+      <h1 className="text-2xl">
+        turn{" "}
+        <strong style={{ color: textColor }}>"{nameList[currentIndex]}"</strong>{" "}
+        vote
+      </h1>
       <ul className="m-4 flex flex-col gap-2">
         {nameList.map(
           (name: string, idx: number) =>
@@ -175,12 +182,13 @@ export default function VotePage() {
           </div>
         </div>
       )}
+
       {playerVoteDone && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90">
           <div className="bg-white w-80 md:w-100 h-100 p-6 rounded-md border-2 flex flex-col justify-center items-center gap-2">
             <div className="flex flex-col items-center gap-14">
               <h1 className="text-2xl font-bold">You Vote Success</h1>
-              <h1>next vote is {nameList[currentIndex]}</h1>
+              <h1>{showNextPlayer()}</h1>
               <button
                 onClick={() => {
                   setIsPlayerVoteDone(false);
@@ -193,7 +201,6 @@ export default function VotePage() {
           </div>
         </div>
       )}
-
     </div>
   );
 }

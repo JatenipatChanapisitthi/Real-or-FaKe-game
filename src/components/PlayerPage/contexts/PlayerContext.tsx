@@ -71,7 +71,6 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     if (nameList.length === 0) return;
 
     // Random words 
-    console.log(chameleon.pairs.length)
     const rand = Math.floor(Math.random() * chameleon.pairs.length);
     const [word1, word2] = chameleon.pairs[rand];
     
