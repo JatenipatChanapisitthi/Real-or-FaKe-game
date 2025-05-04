@@ -5,7 +5,7 @@ const ButtonHome = () => {
   return (
     <a href='/'>
       <button
-        className="cursor-pointer w-30 h-10  rounded-sm text-white bg-green-500 hover:bg-green-600"
+        className="cursor-pointer w-30 h-10  rounded-sm text-white bg-red-500 hover:bg-red-600"
       >
         <div className="flex items-center justify-center gap-1">
           <IoIosHome className="text-xl" />
