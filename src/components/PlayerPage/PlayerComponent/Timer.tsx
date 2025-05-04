@@ -72,26 +72,38 @@ const Timer = () => {
       };
     }, [isTimeStart]);
       
-     
+     const alarm = new Audio("/alarm1.mp3");
+
     
     useEffect(() => {
       if (isTimeUp) {
-        const audio = new Audio("/alarm1.mp3");
-        audio.play();
-        audio.onended = () => {
-        localStorage.setItem("voteData", JSON.stringify({
+        const voteData = {
           nameList,
           whoDiff,
           wordDiff,
           wordNormal,
           inputMinute,
           inputSecond,
-        }));
-        router.push("/vote");
         };
+
+        // ลองเล่นเสียง ถ้าเล่นไม่ได้ก็ไปหน้า vote ทันที
+        alarm
+          .play()
+          .then(() => {
+            // ไปหน้าถัดไปหลังเสียงจบ
+            alarm.onended = () => {
+              localStorage.setItem("voteData", JSON.stringify(voteData));
+              router.push("/vote");
+            };
+          })
+          .catch(() => {
+            // ถ้าเสียงไม่เล่น (เช่นบนมือถือ) ไปหน้า vote ทันที
+            localStorage.setItem("voteData", JSON.stringify(voteData));
+            router.push("/vote");
+          });
       }
     }, [isTimeUp]);
-    
+      
   return (
       <div className="bg-white  border border-gray-200 gap-2 p-6 flex flex-col w-90 md:w-120 items-center justify-center rounded-sm">
         <h1 className="text-2xl font-bold">Time Setup</h1>
