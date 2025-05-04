@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="vsc-initialized">
         <Title />
-        {children}
+        <div className="min-h-screen overflow-hidden">{children}</div>
         <Footer />
       </body>
     </html>
