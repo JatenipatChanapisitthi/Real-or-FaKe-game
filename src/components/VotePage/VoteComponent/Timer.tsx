@@ -28,14 +28,23 @@ const Timer: React.FC<TimerProps> = ({ inputMinute, inputSecond, onTimeUp }) => 
         const now = new Date()
         const difference = target.getTime() - now.getTime()
         if (difference <= 0) {
-            clearInterval(interval);
-            setTimeUp(true)
-            audio.play();
-            audio.onended = () => {
-              onTimeUp(); // เรียกปิด popup หลังเสียงจบ
-            };
-            return;
-          }
+          clearInterval(interval);
+          setTimeUp(true);
+
+          // ลองเล่นเสียง ถ้าไม่ได้ให้ข้ามเสียง
+          audio
+            .play()
+            .then(() => {
+              audio.onended = () => {
+                onTimeUp(); // ปิด popup หลังเสียงจบ
+              };
+            })
+            .catch(() => {
+              onTimeUp(); // ถ้าเสียงเล่นไม่ได้ ไปต่อเลย
+            });
+
+          return;
+        }
           const d = Math.floor(difference / (1000*60*60*24))
           setDays(d)
           
