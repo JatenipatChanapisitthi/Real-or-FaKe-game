@@ -12,38 +12,39 @@ const VoteCard = () => {
     textColor,
   } = useVote()
 
-
-
   return (
-    <div className="flex flex-col bg-white gap-2 border border-gray-200 rounded-sm p-5 justify-center items-center w-90 md:w-120">
-      <h1 className="text-2xl font-bold">Vote Page</h1>
-      <h2>{nameList.length} Players</h2>
-      <h1 className="text-xl">
+    <div className="flex flex-col bg-white gap-6 border border-gray-200 rounded-sm shadow-md  p-6 md:p-10 justify-center items-center w-[95%] max-w-xl mx-20">
+      <h1 className="text-3xl font-bold text-gray-800">Vote Page</h1>
+      <h2 className="text-gray-500">{nameList.length} Players</h2>
+      <h1 className="text-xl md:text-2xl text-gray-700">
         Turn{" "}
-        <strong style={{ color: textColor }}>"{nameList[currentIndex]}"</strong>{" "}
-        vote
+        <strong style={{ color: textColor }}>{nameList[currentIndex]}</strong>{" "}
+        to vote
       </h1>
 
-      <ul className="m-4 flex flex-col gap-2">
+      <ul className="w-full flex flex-col gap-3">
         {nameList.map(
           (name: string, idx: number) =>
             name !== nameList[currentIndex] && (
               <li
                 key={idx}
-                className="flex justify-between items-center bg-[#F9FAFB] p-4 border border-black/10 rounded-sm w-80 md:w-90 cursor-pointer"
+                className="flex justify-between items-center bg-gray-50 p-4 border border-gray-200 rounded-sm hover:shadow-sm transition-shadow"
               >
-                <div className="flex justify-center">{name.toLowerCase()}</div>
+                <div className="text-gray-700 capitalize">{name}</div>
                 <ButtonVote name={name} />
               </li>
             )
         )}
       </ul>
 
-      <ShowScorePopUp />
-      <ShowEqualPopup />
-      <ShowNextPlayerPopUp />
+      <div className="w-full flex flex-col items-center gap-2">
+        <ShowScorePopUp />
+        <ShowEqualPopup />
+        <ShowNextPlayerPopUp />
+      </div>
     </div>
-  );
+  )
 }
 
 export default VoteCard
+

@@ -1,7 +1,8 @@
 'use client'
-import React, { createContext, useContext, useState, ReactNode, useMemo } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useMemo, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation'; // ✨ import ตัวนี้เพิ่ม
-import chameleon from '@/data/thai_chameleon_game_pairs_10000.json'
+import chameleonTH from '@/data/thai_chameleon_game_pairs_10000.json'
+import chameleonEN from '@/data/english_word_pairs_1000.json'
 
 interface PlayerContextType {
     isTimeUp: boolean;
@@ -58,8 +59,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const [isConfirmReset, setIsConfirmReset] = useState(false);
   const [countToStart, setCountToStart] = useState(1);
   const [isGoToStart, setIsGoToStart] = useState(false);
-  const [inputMinute, setInputMinute] = useState(1);
-  const [inputSecond, setInputSecond] = useState(30);
+  const [inputMinute, setInputMinute] = useState(0);
+  const [inputSecond, setInputSecond] = useState(0);
   const [isTimeStart, setIsTimeStart] = useState(false);
 
   const searchParams = useSearchParams();
@@ -67,6 +68,31 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const nameList = useMemo(() => {
     return rawNames ? JSON.parse(decodeURIComponent(rawNames)) : [];
   }, [rawNames]);
+
+  useEffect(() =>{
+      const inputMinuteParams = Number(searchParams.get("inputMinute"))
+      const inputSecondParams = Number(searchParams.get("inputSecond"))
+      if (inputMinuteParams === 0){
+        setInputMinute(2)
+      }
+      else{
+        setInputMinute(inputMinuteParams)
+      }
+        setInputSecond(inputSecondParams)
+    
+
+  }, [])
+
+  const savedLang = localStorage.getItem("languageDataIsThai");
+  const isTH = savedLang ? JSON.parse(savedLang) : true; 
+  let chameleon;
+  if (isTH === true) {
+    chameleon = chameleonTH;
+  } else {
+    chameleon = chameleonEN;
+  }
+
+
   const setStartAndRandomWord = () => {
     if (nameList.length === 0) return;
 

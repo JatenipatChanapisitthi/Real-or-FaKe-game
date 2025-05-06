@@ -5,11 +5,11 @@ const VotePage = () => {
 
   return (
     <VoteProvider>
-    <div className="flex flex-col items-center">
-      <VoteCard />
-    </div>
-  </VoteProvider>
-  )
+      <div className="flex flex-col items-center">
+        <VoteCard />
+      </div>
+    </VoteProvider>
+  );
 }
 
 export default VotePage
