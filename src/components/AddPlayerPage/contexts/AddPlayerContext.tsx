@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-interface HomeContextType {
+interface AddPlayerContextType {
     inputName: string;
     nameList: string[];
     isEditing: boolean;
@@ -18,17 +18,17 @@ interface HomeContextType {
     setIsSameName: (value: boolean) => void;
 }
 
-const HomeContext = createContext<HomeContextType | undefined>(undefined);
+const AddPlayerContext = createContext<AddPlayerContextType | undefined>(undefined);
 
-export function useHome() {
-    const context = useContext(HomeContext);
+export function useAddPlayer() {
+    const context = useContext(AddPlayerContext);
     if (!context) {
-        throw new Error("useHome must be used within a HomeProvider");
+        throw new Error("useAddPlayer must be used within a AddPlayerProvider");
     }
     return context;
 }
 
-export function HomeProvider({ children }: { children: ReactNode }) {
+export function AddPlayerProvider({ children }: { children: ReactNode }) {
     const [inputName, setInputName] = useState('');
     const [nameList, setNameList] = useState<string[]>([]);
     const [isEditing, setIsEditing] = useState(false);
@@ -37,12 +37,12 @@ export function HomeProvider({ children }: { children: ReactNode }) {
     const [isSameName, setIsSameName] = useState(false);
 
     return (
-        <HomeContext.Provider value={{
+        <AddPlayerContext.Provider value={{
             inputName, nameList, isEditing, editName, editNameIndex, isSameName,
             setInputName, setNameList, setIsEditing, setEditName, setEditNameIndex, setIsSameName
         }}>
             {children}
-        </HomeContext.Provider>
+        </AddPlayerContext.Provider>
     );
 }
 

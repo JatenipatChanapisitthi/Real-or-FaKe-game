@@ -1,8 +1,10 @@
-import HomePage from "@/components/HomePage/HomePage"
+import SelectLanguage from "@/components/SelectLanguage/SelectLanguagePage";
 
-export default function Home() {
+const page = () => {
 
   return (
-      <HomePage />
+    <SelectLanguage />
   );
 }
+
+export default page

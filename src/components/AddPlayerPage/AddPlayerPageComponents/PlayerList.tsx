@@ -1,11 +1,12 @@
 "use client"
-import { useHome } from "@/components/HomePage/contexts/HomeContext";
+import { useAddPlayer } from "@/components/AddPlayerPage/contexts/AddPlayerContext"
 import { MdEdit, MdCancel } from "react-icons/md";
 import { FaTrash, FaSave } from "react-icons/fa";
 import StartButton from "../ui/StartButton";
+import Link from "next/link";
 
 const PlayerList = () => {
-    const { nameList, isEditing, editName, editNameIndex, setNameList, setIsEditing, setEditName, setEditNameIndex, setIsSameName} = useHome();
+    const { nameList, isEditing, editName, editNameIndex, setNameList, setIsEditing, setEditName, setEditNameIndex, setIsSameName} = useAddPlayer();
 
     const saveEdited = (index: number) =>{
         if (editName.trim() !== '' && !nameList.includes(editName.trim()) || nameList[index] === editName.trim()) {
@@ -107,6 +108,9 @@ const PlayerList = () => {
         ))}
       </ul>
       <StartButton />
+        <Link href="/" className=" text-sm text-black/60 text-center mt-2">
+          Back To Home
+        </Link>
     </div>
   );
 }

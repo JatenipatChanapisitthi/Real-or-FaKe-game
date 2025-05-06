@@ -1,6 +1,6 @@
 'use client'
 import { createContext, useContext, useState, useEffect } from 'react';
-
+import { toast } from "sonner";
 type VoteData = {
   nameList: string[];
   whoDiff: string;
@@ -87,6 +87,7 @@ export const VoteProvider = ({ children }: { children: React.ReactNode }) => {
 
   const handlePlayerClick = (name: string) => {
     handleVote(name);
+    toast.success(`You vote ${name} success`)
     if (currentIndex < nameList.length - 1) {
       setCurrentIndex((prev) => prev + 1);
       setIsPlayerVoteDone(true);
@@ -111,6 +112,7 @@ export const VoteProvider = ({ children }: { children: React.ReactNode }) => {
         voteData,
         textColor,
         nameList,
+  
         handleVote,
         handlePlayerClick,
         setIsPlayerVoteDone,

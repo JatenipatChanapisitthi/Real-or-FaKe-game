@@ -1,14 +1,26 @@
-import React from 'react'
+import { useEffect } from 'react';
 import { useVote } from '@/components/VotePage/contexts/VoteContext'
 
 const ShowNextPlayerPopUp = () => {
-    const { nameList, currentIndex, playerVoteDone, setIsPlayerVoteDone } =
-      useVote();
+    const { nameList, currentIndex, playerVoteDone, setIsPlayerVoteDone } = useVote();
     const showNextPlayer = () => {
         return nameList[currentIndex] == undefined
         ? "Voting Finished!"
         : `Next vote is ${nameList[currentIndex]}`;
     };
+    
+    useEffect(() => {
+      if (playerVoteDone) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "";
+      }
+  
+      return () => {
+        document.body.style.overflow = "";
+      };
+    }, [playerVoteDone]);
+
   return (
     <div>
       
