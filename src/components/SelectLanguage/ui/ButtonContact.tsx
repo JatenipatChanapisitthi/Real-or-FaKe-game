@@ -8,7 +8,7 @@ import Link from "next/link";
 const ButtonContact = () => {
   const [open, setOpen] = useState(false);
   const email1 = "papangkorn.pitjawong.work@gmail.com";
-  const email2 = "67160063@go.buu.ac.th";
+  const email2 = "jatenipat.garfield03@gmail.com";
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
