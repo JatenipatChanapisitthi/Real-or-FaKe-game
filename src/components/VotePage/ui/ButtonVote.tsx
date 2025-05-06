@@ -1,4 +1,3 @@
-import React from 'react'
 import { useVote } from '@/components/VotePage/contexts/VoteContext';
 
 const ButtonVote = ({ name }: {name: string}) => { 
