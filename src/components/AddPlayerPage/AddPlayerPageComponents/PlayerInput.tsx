@@ -1,8 +1,8 @@
 "use client"
-import { useHome } from "@/components/HomePage/contexts/HomeContext";
+import { useAddPlayer } from "@/components/AddPlayerPage/contexts/AddPlayerContext"
 import { IoPersonAdd } from "react-icons/io5";
 const PlayerInput = () => {
-    const { inputName, setInputName, nameList, setNameList, setIsSameName, isSameName } = useHome();
+    const { inputName, setInputName, nameList, setNameList, setIsSameName, isSameName } = useAddPlayer();
     
 
     const handleAddNameWithKeyboard = (e: React.KeyboardEvent<HTMLInputElement>) => {

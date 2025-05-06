@@ -11,8 +11,6 @@ const ButtonConfirm = () => {
     setCountToStart,
     setSelectedName,
     setIsConfirmReset,
-    setInputMinute,
-    setInputSecond,
     setIsGoToStart,
     setIsShowWord,
     setStartAndRandomWord,
@@ -26,8 +24,6 @@ const ButtonConfirm = () => {
     setWhoDiff(null);     
     setCountToStart(1);          
     setIsGoToStart(false);
-    setInputMinute(1)
-    setInputSecond(30)
     setIsConfirmReset(!isConfirmReset)
   };
   return (

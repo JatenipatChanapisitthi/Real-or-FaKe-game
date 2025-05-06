@@ -5,6 +5,7 @@ import ButtonReset from "../ui/ButtonReset";
 import ButtonStart from "../ui/ButtonStart";
 import ButtonCancel from "../ui/ButtonCancel";
 import ButtonConfirm from "../ui/ButtonConfirm";
+import Link from "next/link";
 
 const PlayerCard = () => {
   const {
@@ -58,9 +59,9 @@ const PlayerCard = () => {
   return (
     <div className="relative bg-white  border border-gray-200 gap-2 flex flex-col w-90 md:w-120 items-center justify-center p-20 rounded-sm">
       <div className="flex flex-col items-center justify-center">
-        <a href="/" className="absolute bottom-2 text-sm text-black/80">
-          Back To Home
-        </a>
+        <Link href="AddPlayer" className="absolute bottom-2 text-sm text-black/60">
+          Back To Add Player Page
+        </Link>
         <h1 className="text-2xl font-bold">Players Words:</h1>
         <h2>{nameList.length} Players</h2>
         <ul className="m-4 flex flex-col gap-2 ">
