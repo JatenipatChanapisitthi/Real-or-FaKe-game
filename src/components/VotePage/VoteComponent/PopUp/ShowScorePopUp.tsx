@@ -8,7 +8,7 @@ import { useEffect } from 'react'
 import { RiSpyFill } from "react-icons/ri";
 
 const ShowScorePopUp = () => {
-    const {score, maxName, voteData, vote, nameList} = useVote();
+    const {score, maxName, voteData, vote, nameList, isShowResultPopup} = useVote();
     useEffect(() => {
       if (score) {
         document.body.style.overflow = "hidden";
@@ -24,12 +24,14 @@ const ShowScorePopUp = () => {
     if (!voteData) {
       return <Loading /> 
     }
+
+
   
     const isSpyWin = maxName !== voteData.whoDiff;
   return (
     <div>
-      {score && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90">
+      {isShowResultPopup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center ">
           <div className="bg-white w-80 md:w-100 h-110 p-6 rounded-md border-2 flex flex-col items-center gap-3">
             <div className="flex flex-col items-center gap-6">
               <h1 className="text-3xl font-bold text-center">Vote Result</h1>

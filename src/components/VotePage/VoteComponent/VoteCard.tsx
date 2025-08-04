@@ -4,12 +4,14 @@ import ButtonVote from '@/components/VotePage/ui/ButtonVote'
 import ShowScorePopUp from './PopUp/ShowScorePopUp'
 import ShowEqualPopup from './PopUp/ShowEqualPopup'
 import ShowNextPlayerPopUp from './PopUp/ShowNextPlayerPopUp'
+import ShowResultPopUp from './PopUp/ShowResultPopUp'
 
 const VoteCard = () => {
   const {
     nameList,
     currentIndex,
     textColor,
+    isShowResultPopup
   } = useVote()
 
   return (
@@ -38,6 +40,7 @@ const VoteCard = () => {
       </ul>
 
       <div className="w-full flex flex-col items-center gap-2">
+        <ShowResultPopUp /> 
         <ShowScorePopUp />
         <ShowEqualPopup />
         <ShowNextPlayerPopUp />
