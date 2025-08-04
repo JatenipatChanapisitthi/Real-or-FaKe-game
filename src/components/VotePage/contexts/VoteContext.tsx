@@ -20,6 +20,8 @@ type VoteContextType = {
   voteData: VoteData | null;
   textColor: string;
   nameList: string[];
+  isShowResultPopup: boolean;
+  setIsShowResultPopup: (val: boolean) => void;
   handleVote: (name: string) => void;
   handlePlayerClick: (name: string) => void;
   setIsPlayerVoteDone: (val: boolean) => void;
@@ -37,6 +39,7 @@ export const VoteProvider = ({ children }: { children: React.ReactNode }) => {
   const [playerVoteDone, setIsPlayerVoteDone] = useState(false);
   const [voteData, setVoteData] = useState<VoteData | null>(null);
   const [textColor, setTextColor] = useState('#DA3E44');
+  const [isShowResultPopup, setIsShowResultPopup] = useState(false);
 
   useEffect(() => {
     if (playerVoteDone) {
@@ -112,7 +115,8 @@ export const VoteProvider = ({ children }: { children: React.ReactNode }) => {
         voteData,
         textColor,
         nameList,
-  
+        isShowResultPopup,
+        setIsShowResultPopup,
         handleVote,
         handlePlayerClick,
         setIsPlayerVoteDone,
