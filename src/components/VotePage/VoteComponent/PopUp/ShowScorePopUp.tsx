@@ -25,7 +25,8 @@ const ShowScorePopUp = () => {
       return <Loading /> 
     }
 
-
+console.log("maxName:", maxName)
+console.log("spy name (whoDiff):", voteData.whoDiff)
   
     const isSpyWin = maxName !== voteData.whoDiff;
   return (
