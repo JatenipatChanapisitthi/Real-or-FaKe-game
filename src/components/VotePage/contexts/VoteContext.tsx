@@ -47,19 +47,27 @@ export const VoteProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [playerVoteDone]);
 
-  useEffect(() => {
-    const storedData = localStorage.getItem('voteData');
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      setVoteData(parsedData);
+useEffect(() => {
+  const storedData = localStorage.getItem('voteData');
+  if (storedData) {
+    const parsedData = JSON.parse(storedData);
 
-      const initialVotes = parsedData.nameList.reduce((acc: { [key: string]: number }, name: string) => {
-        acc[name] = 0;
-        return acc;
-      }, {});
-      setVote(initialVotes);
+    // ✅ ถ้าไม่มี whoDiff ให้เตือนและไม่โหลด
+    if (!parsedData.whoDiff) {
+      console.warn("⚠️ voteData.whoDiff is missing or null!");
+      return;
     }
-  }, []);
+
+    setVoteData(parsedData);
+
+    const initialVotes = parsedData.nameList.reduce((acc: { [key: string]: number }, name: string) => {
+      acc[name] = 0;
+      return acc;
+    }, {});
+    setVote(initialVotes);
+  }
+}, []);
+
 
   const nameList = voteData?.nameList ?? [];
 
