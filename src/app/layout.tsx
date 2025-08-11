@@ -5,9 +5,26 @@ import "./globals.css";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
-  title: "Real or Fake Game",
-  description: "Create offline party game",
+  title: "Real or Fake Game | Offline Party Game",
+  description: "เล่นเกมปาร์ตี้ทายจริงหรือหลอกฟรี! ว่าใครเป็นสปาย!! เล่นกับเพื่อนในวง หรือครอบครัวได้ทุกที่ เหมาะสำหรับปาร์ตี้ออฟไลน์",
+  icons:{
+    icon:"/favicon.ico",
+  },
+  keywords: [
+    "real or fake game",
+    "เกมจริงหรือหลอก",
+    "เกมปาร์ตี้",
+    "เกมเล่นกับเพื่อน",
+    "online party games",
+    "เกมออนไลน์ฟรี",
+    "offline party games",
+    "free offline party games",
+    "free real or fake game",
+    "easy games to play with friends",
+    "spy game"
+  ],
 };
+
 
 export default function RootLayout({
   children,
